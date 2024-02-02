@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>BJC-ATS</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="fonts/fontStyle.css" />
+    <link rel="stylesheet" href="fonts/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="fonts/fontawesome5-overrides.min.css" />
+    <link rel="stylesheet" href="css/AnimatePageChange.css" />
+    <link rel="stylesheet" href="css/EditCard.css" />
+    <link rel="stylesheet" href="css/dataTables.min.css" />
+    <link rel="stylesheet" href="css/NavCustomStyle.css" />
+    <link rel="stylesheet" href="css/PageHeader.css" />
+    <link rel="stylesheet" href="css/ScrollBar.css" />
+    <link rel="stylesheet" href="css/SidePanel.css" />
+    <link rel="stylesheet" href="css/Stats-icons.css" />
+    <link rel="stylesheet" href="css/StatusCard.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+
+  <datalist id="customer_opt"></datalist>
+  <datalist id="vehicle_opt"></datalist>
+  <datalist id="product_opt"></datalist>
+
+  <body id="page-top" class="animated--grow-in">
+    <div id="contentWrapper">
+      <header class="pageheader">
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-info btn-sm openbtn" type="button" onclick="openNav()">
+            <i class="fa fa-navicon"></i>
+            <span class="d-none d-lg-inline d-xl-inline">&nbsp;เมนู</span>
+          </button>
+          <h5 class="d-inline my-0 mx-5">Auto Truck Scale System</h5>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <span class="float-right" id="show_username">Username</span>
+
+          <form action="/user/logout" method="get">
+            <button class="btn btn-info btn-sm float-right mx-2" type="submit">
+              <i class="fa fa-sign-out m-1"></i></span>
+            </button>
+          </form>
+          <input
+          class="d-none float-right d-md-flex"
+          type="text"
+          id="currentDateTime"
+          readonly=""
+          disabled=""
+          style="text-align: center; margin-top: 0px; width: auto"
+        />
+        </div>
+      </header>
+      <div id="sidepanel" class="sidepanel rounded shadow-lg">
+        <button class="btn btn-link float-right p-0 closebtn" type="button" onclick="closeNav()">
+          <i class="fa fa-close"></i>
+        </button>
+        <h4 class="text-black-50 m-3" style="font-style: italic">เมนู</h4>
+        <div class="container">
+          <a href="/"><i class="fa fa-home mr-2"></i>หน้าแรก</a>
+          <a href="/scalelist"><i class="fa fa-balance-scale mr-2"></i>รายการชั่ง</a>
+          <a href="/scaleplan"><i class="fa fa-list-alt mr-2"></i>แผนการชั่ง</a>
+          <a href="/scalereport"><i class="fa fa-clipboard mr-2"></i>รายงาน</a><span>ข้อมูล</span>
+          <a href="/customer"><i class="fa fa-user-circle mr-2"></i>ข้อมูลลูกค้า</a>
+          <a href="/product"><i class="fa fa-cubes mr-2"></i>ข้อมูลสินค้า</a>
+          <a href="/vehicle"><i class="fa fa-truck mr-2"></i>ข้อมูลทะเบียนรถ</a>
+          <a href="/masterfactory"><i class="fa fa-industry mr-2"></i>ข้อมูลโรงงาน</a>
+          <a href="/usersetting"><i class="fa fa-users mr-2"></i>ข้อมูลบัญชีผู้ใช้</a>
+          <a href="/about"><i class="fa fa-server mr-2"></i>ข้อมูลโปรแกรม</a>
+        </div>
+      </div>
+      <div id="content" class="p-2 animate-in" style="margin-left: 220px; height: 90vh">
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalPlanAdd">
+          <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">ข้อมูลแผนการชั่ง</h4>
+                  <button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>วันที่:</label>
+                      </div>
+                      <div class="col-4"><input class="form-control" type="date" id="input_inModalPlanAdd_date" /></div>
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ประเภทการชั่ง:</label>
+                      </div>
+                      <div class="col-4">
+                        <select class="form-control" required="" id="select_inModalPlanAdd_weightType">
+                          <option value="1" selected="">ชั่งเข้า</option>
+                          <option value="2">ชั่งออก</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ลูกค้า:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" id="input_inModalPlanAdd_customer" placeholder="เลือกลูกค้า" list="customer_opt" />
+                        
+                      </div>
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>รหัสลูกค้า:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" id="input_inModalPlanAdd_customerCode" placeholder="รหัสลูกค้า" disabled="" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ทะเบียนรถ:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกทะเบียนรถ" id="input_inModalPlanAdd_vehicle" list="vehicle_opt" />
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ประเภทรถ:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกประเภทรถ" id="input_inModalPlanAdd_vehicleType" disabled="" />
+                        
+                      </div>
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>บริษัทขนส่ง:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกบริษัทขนส่ง" id="input_inModalPlanAdd_shipper"  disabled="" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right"><label class="col-form-label text-nowrap">ทะเบียนพ่วง:</label></div>
+                      <div class="col-4"><input class="form-control" type="text" id="input_inModalPlanAdd_TrailerPlate"/></div>
+                      <div class="col-2 text-right"><label class="col-form-label text-nowrap" >พนักงานขับรถ:</label></div>
+                      <div class="col-4"><input class="form-control" type="text" id="input_inModalPlanAdd_driverName"/></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right"><label class="col-form-label text-nowrap">หมายเหตุ:</label></div>
+                      <div class="col-8"><textarea class="form-control" id="textarea_inModalPlanAdd_remark"></textarea></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-4 text-right"><label class="col-form-label text-nowrap">หมายเลขขนส่งไทยโมลาส:</label></div>
+                      <div class="col-4"><input class="form-control" type="text" id="input_inModalPlanAdd_thaiMolassesNo"/></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap">บริษัทผู้ค้ากากน้ำตาล:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกบริษัทผู้ค้ากากน้ำตาล" id="input_inModalPlanAdd_molassesSeller" list="customer_opt" />
+                      </div>
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap">รหัสบริษัทผู้ค้ากากน้ำตาล:</label>
+                      </div>
+                      <div class="col-4"><input class="form-control" type="text" id="input_inModalPlanAdd_molassesSellerCode" placeholder="รหัสบริษัทผู้ค้ากากน้ำตาล" disabled="" /></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-light" type="button" data-dismiss="modal">ปิด</button
+                  ><button class="btn btn-primary" type="submit" id="button_inModal_planAdd">บันทึก</button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalCheckIn">
+          <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">ลงชื่อพนักงานขับรถ</h4>
+                  <button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right"><label class="col-form-label text-nowrap">วันที่:</label></div>
+                      <div class="col-4"><input class="form-control" type="datetime-local" id="input_inModalCheckIn_date" disabled="" /></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right"><label class="col-form-label text-nowrap">ลูกค้า:</label></div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกลูกค้า" id="input_inModalCheckIn_customer" list="customer_opt" disabled="" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ทะเบียนรถ:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกทะเบียนรถ" id="input_inModalCheckIn_vehicle" list="vehicle_opt" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right"><label class="col-form-label text-nowrap"><span class="text-danger">*</span>ประเภทรถ:</label></div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกประเภทรถ" id="input_inModalCheckIn_vehicleType" disabled="" />
+                      </div>
+                      <div class="col-2 text-right"><label class="col-form-label text-nowrap"><span class="text-danger">*</span>บริษัทขนส่ง:</label></div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกบริษัทขนส่ง" id="input_inModalCheckIn_shipper" disabled="" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right"><label class="col-form-label text-nowrap">ทะเบียนพ่วง:</label></div>
+                      <div class="col-4"><input class="form-control" type="text" id="input_inModalCheckIn_TrailerPlate"/></div>
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>พนักงานขับรถ:</label>
+                      </div>
+                      <div class="col-4"><input class="form-control" type="text" id="input_inModalCheckIn_driverName" /></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-light" type="button" data-dismiss="modal">ปิด</button
+                  ><button class="btn btn-primary" type="submit" id="button_inModal_checkIn" >บันทึก</button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalPlanDetail">
+          <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">ข้อมูลแผนการชั่ง</h4>
+                  <button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>วันที่:</label>
+                      </div>
+                      <div class="col-4"><input class="form-control" type="date" id="input_inModalPlanDetail_date" /></div>
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ประเภทการชั่ง:</label>
+                      </div>
+                      <div class="col-4">
+                        <select class="form-control" required="" id="select_inModalPlanDetail_weightType">
+                          <option value="1" selected="">ชั่งเข้า</option>
+                          <option value="2">ชั่งออก</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ลูกค้า:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกลูกค้า" list="customer_opt" id="input_inModalPlanDetail_customer"/>
+                      </div>
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>รหัสลูกค้า:</label>
+                      </div>
+                      <div class="col-4"><input class="form-control" type="text" placeholder="รหัสลูกค้า" disabled="" id="input_inModalPlanDetail_customerCode"/></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ทะเบียนรถ:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกทะเบียนรถ" id="input_inModalPlanDetail_vehicle" list="vehicle_opt"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ประเภทรถ:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกประเภทรถ" id="input_inModalPlanDetail_vehicleType" disabled="" />
+                      </div>
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>บริษัทขนส่ง:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกบริษัทขนส่ง" id="input_inModalPlanDetail_shipper" disabled="" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right"><label class="col-form-label text-nowrap">ทะเบียนพ่วง:</label></div>
+                      <div class="col-4"><input class="form-control" type="text" id="input_inModalPlanDetail_TrailerPlate"/></div>
+                      <div class="col-2 text-right"><label class="col-form-label text-nowrap">พนักงานขับรถ:</label></div>
+                      <div class="col-4"><input class="form-control" type="text" id="input_inModalPlanDetail_driverName"/></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right"><label class="col-form-label text-nowrap">หมายเหตุ:</label></div>
+                      <div class="col-6"><textarea class="form-control" id="textarea_inModalPlanDetail_remark"></textarea></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-4 text-right"><label class="col-form-label text-nowrap">หมายเลขขนส่งไทยโมลาส:</label></div>
+                      <div class="col-4"><input class="form-control" type="text" id="input_inModalPlanDetail_thaiMolassesNo"/></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap">บริษัทผู้ค้ากากน้ำตาล:</label>
+                      </div>
+                      <div class="col-4">
+                        <input class="form-control" type="text" placeholder="เลือกบริษัทผู้ค้ากากน้ำตาล" id="input_inModalPlanDetail_molassesSeller" list="customer_opt" />
+                      </div>
+                      <div class="col-2 text-right">
+                        <label class="col-form-label text-nowrap">รหัสบริษัทผู้ค้ากากน้ำตาล:</label>
+                      </div>
+                      <div class="col-4"><input class="form-control" type="text" id="input_inModalPlanDetail_molassesSellerCode" placeholder="รหัสบริษัทผู้ค้ากากน้ำตาล" disabled="" /></div>
+                    </div>
+                  </div>
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <h4>รายการสินค้า</h4>
+                      <div class="form-group">
+                        <div class="form-row">
+                          <div class="col-2 text-right">
+                            <label class="col-form-label text-nowrap"><span class="text-danger">*</span>สินค้า:</label>
+                          </div>
+                          <div class="col-3 align-self-center">
+                            <input class="form-control form-control-sm" type="text" placeholder="เลือกสินค้า" id="input_inModalPlanDetail_product" list="product_opt" />
+                            
+                          </div>
+                          <div class="col-2 text-right">
+                            <label class="col-form-label text-nowrap"><span class="text-danger">*</span>รหัสสินค้า:</label>
+                          </div>
+                          <div class="col-3 align-self-center">
+                            <input class="form-control form-control-sm" type="text" disabled="" id="input_inModalPlanDetail_productCode"/>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="col-2 text-right">
+                            <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ประเภทสินค้า:</label>
+                          </div>
+                          <div class="col-3 align-self-center">
+                            <input
+                              class="form-control form-control-sm"
+                              type="text"
+                              placeholder="เลือกประเภทสินค้า"
+                              id="input_inModalPlanDetail_productType"
+                              disabled=""
+                            />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="col-2 text-right"><label class="col-form-label text-nowrap">เลขที่บิล:</label></div>
+                          <div class="col-3 align-self-center">
+                            <input class="form-control form-control-sm" type="text" id="input_inModalPlanDetail_billNo"/>
+                          </div>
+                          <div class="col-2 text-right"><label class="col-form-label text-nowrap">น้ำหนักตามบิล:</label></div>
+                          <div class="col-3 align-self-center">
+                            <input class="form-control form-control-sm" type="number" id="input_inModalPlanDetail_billWeight"/>
+                          </div>
+                          <div class="col align-self-center">
+                            <button class="btn btn-info btn-sm float-right" type="button" id="button_product_add">เพิ่มรายการ</button></div>
+                        </div>
+                      </div>
+                      <div class="table-responsive table mt-2" style="font-size: 13px">
+                        <table class="table text-nowrap table-striped table-hover table-sm my-0 w-100 display" id="tbProductList">
+                          <thead style="background: rgb(226, 252, 255)">
+                            <tr class="text-center">
+                              <th>เลขที่บัตรชั่ง</th>
+                              <th>รหัสสินค้า</th>
+                              <th>สินค้า</th>
+                              <th>เลขที่บิล</th>
+                              <th>น้ำหนักตามบิล</th>
+                              <th>สถานะ</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody class="text-center"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-light" type="button" data-dismiss="modal">ปิด</button
+                  ><button class="btn btn-primary" type="submit" id="button_inModal_planDetail">บันทึก</button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalPrintQr">
+          <div class="modal-dialog" style="width: 100vw; max-width: 90vw!important;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">ข้อมูลคิวอาร์โค้ด</h4>
+                  <button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-row">
+                    <div class="col d-flex justify-content-center align-items-center" id="showPDF">
+
+                      <!-- <object width="100%" height="900px" type="application/pdf" data="img/test.png"></object> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">ปิด</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalPlanDel">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">ยกเลิกแผนการชั่ง</h4>
+                <button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+              </div>
+              <div class="modal-body">
+                <p>ต้องการยกเลิกแผนการชั่งใช่หรือไม่?</p>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-dismiss="modal" >ไม่ใช่</button
+                ><button class="btn btn-primary" id="YesPlanBtn" type="submit">ใช่</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col">
+              <h4><i class="fa fa-list-alt mx-3"></i>แผนการชั่ง</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card-box p-2 rounded-lg shadow">
+                <div class="card mb-2 shadow" style="min-height: 75vh">
+                  <div class="card-body">
+                      <div class="form-row">
+                        <div class="col">
+                          <button class="btn btn-primary float-right" type="button" id="button_plan_add">เพิ่มแผนการชั่ง</button>
+                          <button class="btn btn-secondary float-right" type="button" id="button_plan_uploadFile" style="margin-right: 10px">นำแผนเข้า</button>
+                          <input class="d-none" type="file" id="input_plan_uploadFile" accept=".xls,.xlsx" />
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="col">
+                          <div class="table-responsive mt-2" style="font-size: 13px">
+                            <table class="table table-sm w-100 my-0 display" id="tbWeightPlan">
+                              <thead>
+                                <tr class="text-center">
+                                  <th>ลำดับ</th>
+                                  <th>เลขที่แผน</th>
+                                  <th>วันที่</th>
+                                  <th>ทะเบียนรถ</th>
+                                  <th>ลูกค้า</th>
+                                  <th>ประเภทการชั่ง</th>
+                                  <th>จำนวนสินค้า</th>
+                                  <th>สถานะ</th>
+                                  <th>เช็คอิน</th>
+                                  <th>หมายเหตุ</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody class="text-center"></tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <script src="js/DateTime.js"></script>
+    <script src="js/dataTables.min.js"></script>
+    <script src="js/jquery.easing.js"></script>
+    <script src="js/Imgpreview.js"></script>
+    <script src="js/report.js"></script>
+    <script src="js/SidePanel.js"></script>
+    <!-- <script src="js/sortTable.js"></script> -->
+    <script src="js/theme.js"></script>
+    <script src="js/print.js"></script>
+
+    <script src="js/swalalert2.js"></script>
+    <script src="ScalePlan.js"></script>
+  </body>
+</html>

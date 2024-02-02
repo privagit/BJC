@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>BJC-ATS</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="fonts/fontStyle.css" />
+    <link rel="stylesheet" href="fonts/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="fonts/fontawesome5-overrides.min.css" />
+    <link rel="stylesheet" href="css/AnimatePageChange.css" />
+    <link rel="stylesheet" href="css/EditCard.css" />
+    <link rel="stylesheet" href="css/dataTables.min.css" />
+    <link rel="stylesheet" href="css/NavCustomStyle.css" />
+    <link rel="stylesheet" href="css/PageHeader.css" />
+    <link rel="stylesheet" href="css/ScrollBar.css" />
+    <link rel="stylesheet" href="css/SidePanel.css" />
+    <link rel="stylesheet" href="css/Stats-icons.css" />
+    <link rel="stylesheet" href="css/StatusCard.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body id="page-top">
+    <div id="contentWrapper">
+      <header class="pageheader">
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-info btn-sm openbtn" type="button" onclick="openNav()">
+            <i class="fa fa-navicon"></i>
+            <span class="d-none d-lg-inline d-xl-inline">&nbsp;เมนู</span>
+          </button>
+          <h5 class="d-inline my-0 mx-5">Auto Truck Scale System</h5>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <span class="float-right" id="show_username">Username</span>
+
+          <form action="/user/logout" method="get">
+            <button class="btn btn-info btn-sm float-right mx-2" type="submit">
+              <i class="fa fa-sign-out m-1"></i></span>
+            </button>
+          </form>
+          <input
+          class="d-none float-right d-md-flex"
+          type="text"
+          id="currentDateTime"
+          readonly=""
+          disabled=""
+          style="text-align: center; margin-top: 0px; width: auto"
+        />
+        </div>
+      </header>
+      <div id="sidepanel" class="sidepanel rounded shadow-lg">
+        <button class="btn btn-link float-right p-0 closebtn" type="button" onclick="closeNav()">
+          <i class="fa fa-close"></i>
+        </button>
+        <h4 class="text-black-50 m-3" style="font-style: italic">เมนู</h4>
+        <div class="container">
+          <a href="/"><i class="fa fa-home mr-2"></i>หน้าแรก</a>
+          <a href="/scalelist"><i class="fa fa-balance-scale mr-2"></i>รายการชั่ง</a>
+          <a href="/scaleplan"><i class="fa fa-list-alt mr-2"></i>แผนการชั่ง</a>
+          <a href="/scalereport"><i class="fa fa-clipboard mr-2"></i>รายงาน</a><span>ข้อมูล</span>
+          <a href="/customer"><i class="fa fa-user-circle mr-2"></i>ข้อมูลลูกค้า</a>
+          <a href="/product"><i class="fa fa-cubes mr-2"></i>ข้อมูลสินค้า</a>
+          <a href="/vehicle"><i class="fa fa-truck mr-2"></i>ข้อมูลทะเบียนรถ</a>
+          <a href="/masterfactory"><i class="fa fa-industry mr-2"></i>ข้อมูลโรงงาน</a>
+          <a href="/usersetting"><i class="fa fa-users mr-2"></i>ข้อมูลบัญชีผู้ใช้</a>
+          <a href="/about"><i class="fa fa-server mr-2"></i>ข้อมูลโปรแกรม</a>
+        </div>
+      </div>
+      <div id="content" class="p-2 animate-in" style="margin-left: 220px; height: 90vh">
+        <div class="container py-4 py-xl-5 d-flex justify-content-center align-items-start">
+          
+          <h1 class="text-secondary">ไม่มีสิทธิ์เข้าถึง</h1>
+        </div>
+      </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <script src="js/DateTime.js"></script>
+    <script src="js/dataTables.min.js"></script>
+    <script src="js/jquery.easing.js"></script>
+    <script src="js/Imgpreview.js"></script>
+    <script src="js/report.js"></script>
+    <script src="js/SidePanel.js"></script>
+    <script src="js/sortTable.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/print.js"></script>
+
+    <!-- <script src="main/script.js"></script> -->
+  </body>
+</html>

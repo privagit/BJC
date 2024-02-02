@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>BJC-ATS</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="fonts/fontStyle.css" />
+    <link rel="stylesheet" href="fonts/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="fonts/fontawesome5-overrides.min.css" />
+    <link rel="stylesheet" href="css/AnimatePageChange.css" />
+    <link rel="stylesheet" href="css/EditCard.css" />
+    <link rel="stylesheet" href="css/dataTables.min.css" />
+    <link rel="stylesheet" href="css/NavCustomStyle.css" />
+    <link rel="stylesheet" href="css/PageHeader.css" />
+    <link rel="stylesheet" href="css/ScrollBar.css" />
+    <link rel="stylesheet" href="css/SidePanel.css" />
+    <link rel="stylesheet" href="css/Stats-icons.css" />
+    <link rel="stylesheet" href="css/StatusCard.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+
+  <datalist id="product_opt">
+    <option data-id="1" value="กากน้ำตาล" />
+    <option data-id="2" value="สุรารวม" />
+    <option data-id="3" value="สุราขาว 70 ดีกรี" />
+  </datalist>
+  <datalist id="customer_opt">
+    <option data-id="1" value="โรงงานสุราบริษัท สุราบางยี่ขัน จำกัด จังหวัดปทุมธานี" />
+  </datalist>
+
+  <body id="page-top">
+    <div id="contentWrapper">
+      <header class="pageheader">
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-info btn-sm openbtn" type="button" onclick="openNav()">
+            <i class="fa fa-navicon"></i>
+            <span class="d-none d-lg-inline d-xl-inline">&nbsp;เมนู</span>
+          </button>
+          <h5 class="d-inline my-0 mx-5">Auto Truck Scale System</h5>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <span class="float-right" id="show_username">Username</span>
+
+          <form action="/user/logout" method="get">
+            <button class="btn btn-info btn-sm float-right mx-2" type="submit">
+              <i class="fa fa-sign-out m-1"></i></span>
+            </button>
+          </form>
+          <input
+          class="d-none float-right d-md-flex"
+          type="text"
+          id="currentDateTime"
+          readonly=""
+          disabled=""
+          style="text-align: center; margin-top: 0px; width: auto"
+        />
+        </div>
+      </header>
+      <div id="sidepanel" class="sidepanel rounded shadow-lg">
+        <button class="btn btn-link float-right p-0 closebtn" type="button" onclick="closeNav()">
+          <i class="fa fa-close"></i>
+        </button>
+        <h4 class="text-black-50 m-3" style="font-style: italic">เมนู</h4>
+        <div class="container">
+          <a href="/"><i class="fa fa-home mr-2"></i>หน้าแรก</a>
+          <a href="/scalelist"><i class="fa fa-balance-scale mr-2"></i>รายการชั่ง</a>
+          <a href="/scaleplan"><i class="fa fa-list-alt mr-2"></i>แผนการชั่ง</a>
+          <a href="/scalereport"><i class="fa fa-clipboard mr-2"></i>รายงาน</a><span>ข้อมูล</span>
+          <a href="/customer"><i class="fa fa-user-circle mr-2"></i>ข้อมูลลูกค้า</a>
+          <a href="/product"><i class="fa fa-cubes mr-2"></i>ข้อมูลสินค้า</a>
+          <a href="/vehicle"><i class="fa fa-truck mr-2"></i>ข้อมูลทะเบียนรถ</a>
+          <a href="/masterfactory"><i class="fa fa-industry mr-2"></i>ข้อมูลโรงงาน</a>
+          <a href="/usersetting"><i class="fa fa-users mr-2"></i>ข้อมูลบัญชีผู้ใช้</a>
+          <a href="/about"><i class="fa fa-server mr-2"></i>ข้อมูลโปรแกรม</a>
+        </div>
+      </div>
+      <div id="content" class="p-2 animate-in" style="margin-left: 220px; height: 90vh">
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalAnalyze">
+          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">ข้อมูลวิเคราะห์กากน้ำตาล</h4>
+                  <button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-3 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>แบทช์:</label>
+                      </div>
+                      <div class="col-4"><input class="form-control" type="text" required="" id="input_inModal_batch" /></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col-3 text-right">
+                        <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ผู้รับ:</label>
+                      </div>
+                      <div class="col-4"><input class="form-control" type="text" required="" id="input_inModal_receiveBy"/></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row">
+                      <div class="col">
+                        <div class="form-group">
+                          <div class="form-row">
+                            <div class="col-3 text-right"><label class="col-form-label text-nowrap">ถังเก็บ:</label></div>
+                            <div class="col-4"><input class="form-control" type="text" placeholder="" id="input_inModal_barrell"/></div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-row">
+                            <div class="col-3 text-right">
+                              <label class="col-form-label text-nowrap"><span class="text-danger">*</span>% ความหวาน:</label>
+                            </div>
+                            <div class="col-4"><input class="form-control" type="number" min="0" max="100" id="input_inModal_sweetness" required="" /></div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-row">
+                            <div class="col-3 text-right">
+                              <label class="col-form-label text-nowrap"><span class="text-danger">*</span>บริกซ์:</label>
+                            </div>
+                            <div class="col-4"><input class="form-control" type="number" id="input_inModal_brix" required="" /></div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-row">
+                            <div class="col-3 text-right">
+                              <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ถ.พ.:</label>
+                            </div>
+                            <div class="col-4"><input class="form-control" type="number" id="input_inModal_specificGravity" required="" /></div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-row">
+                            <div class="col-3 text-right">
+                              <label class="col-form-label text-nowrap"><span class="text-danger">*</span>อุณหภูมิรับเข้า:</label>
+                            </div>
+                            <div class="col-4"><input class="form-control" type="number" id="input_inModal_temperature" required="" /></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-light" type="button" data-dismiss="modal">ปิด</button
+                  ><button class="btn btn-primary" type="submit" id="button_inModal_submit">บันทึก</button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col">
+              <h4><i class="fa fa-clipboard mx-3"></i>รายงานการชั่ง</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card-box p-2 rounded-lg shadow">
+                <div class="card shadow rounded-lg mb-2" style="min-height: 75vh">
+                  <div class="card-body">
+                    <div>
+                      <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <a class="nav-link active text-dark bg-light" role="tab" data-toggle="tab" href="#product">รายงานการขนสินค้า</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <a class="nav-link text-dark bg-light" role="tab" data-toggle="tab" href="#producttype">รายงานการรับกากน้ำตาล</a>
+                        </li>
+                      </ul>
+                      <div class="tab-content">
+                        <div class="tab-pane active" role="tabpanel" id="product">
+                          <form class="mt-2">
+                            <div class="form-row">
+                              <div class="col-3 col-md-1 text-right mb-2"><label class="col-form-label text-nowrap">สินค้า</label></div>
+                              <div class="col-8 col-md-4 mb-2">
+                                <input class="form-control filter-product" type="text" placeholder="เลือกสินค้า" list="product_opt" id="input_shipper_product"/>
+                              </div>
+                              <div class="col-3 col-md-1 text-right mb-2"><label class="col-form-label text-nowrap">ลูกค้า</label></div>
+                              <div class="col-8 col-md-4 mb-2">
+                                <input class="form-control filter-product" type="text" placeholder="เลือกลูกค้า" list="customer_opt" id="input_shipper_customer"/>
+                                
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col-3 col-md-1 text-right mb-2"><label class="col-form-label text-nowrap">ประเภท</label></div>
+                              <div class="col-8 col-md-4 mb-2">
+                                <select class="form-control filter-product" id="select_shipper_weightType">
+                                  <option value="1" selected="">ชั่งเข้า</option>
+                                  <option value="2">ชั่งออก</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col-3 col-lg-1 text-right mb-2"><label class="col-form-label text-nowrap">วันที่</label></div>
+                              <div class="col-8 col-lg-4 mb-2"><input class="form-control filter-product" type="date" id="input_shipper_formDate"/></div>
+                              <div class="col-3 col-lg-1 text-right text-lg-center mb-2"><label class="col-form-label text-nowrap">ถึง</label></div>
+                              <div class="col-8 col-lg-4 mb-2"><input class="form-control filter-product" type="date" id="input_shipper_toDate"/></div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col text-right mb-2"><button class="btn btn-secondary" type="button" id="button_shipper_download">ดาวน์โหลด</button></div>
+                            </div>
+                            <div class="form-row mt-2">
+                              <div class="col">
+                                <div class="table-responsive" style="font-size: 13px">
+                                  <table class="table table-sm my-0 display text-center text-nowrap w-100" id="tbProduct">
+                                    <thead>
+                                      <tr class="text-center">
+                                        <th>วันที่</th>
+                                        <th>ทะเบียนรถ</th>
+                                        <th>จำนวนคันที่ขน</th>
+                                        <th>ชื่อ - สกุล พนักงานขับรถ</th>
+                                        <th>หมายเหตุ</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody class="text-center"></tbody>
+                                    </tbody>
+                                    <tfoot class="font-weight-bold">
+                                      <tr>
+                                        <td class="text-center" colspan="2">รวมทั้งสิ้น</td>
+                                        <td class="text-center">4</td>
+                                        <td colspan="2">คัน</td>
+                                      </tr>
+                                    </tfoot>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="producttype">
+                          <form class="mt-2">
+                            <div class="form-row">
+                              <div class="col-3 col-lg-1 text-right mb-2"><label class="col-form-label text-nowrap">รายงาน</label></div>
+                              <div class="col-8 col-lg-4 mb-2">
+                                <select class="form-control" id="select_molasses_reportType">
+                                  <option value="1" selected="">รายการชั่ง</option>
+                                  <option value="2">สรุปรายลูกค้า</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col-3 col-lg-1 text-right mb-2"><label class="col-form-label text-nowrap">วันที่</label></div>
+                              <div class="col-8 col-lg-4 mb-2"><input class="form-control" type="date" id="input_molasses_fromDate"/></div>
+                              <div class="col-3 col-lg-1 text-right text-lg-center mb-2"><label class="col-form-label text-nowrap">ถึง</label></div>
+                              <div class="col-8 col-lg-4 mb-2"><input class="form-control" type="date" id="input_molasses_toDate"/></div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col text-right mb-2"><button class="btn btn-secondary" type="button" id="button_molasses_download">ดาวน์โหลด</button></div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col-12" id="weightlist">
+                                <div class="table-responsive mt-2" style="font-size: 13px">
+                                  <table class="table table-sm te my-0 text-nowrap w-100" id="tbMolasses">
+                                    <thead>
+                                      <tr class="text-center">
+                                        <th>ลำดับ</th>
+                                        <th>ทะเบียนรถ/<br />ใบสั่งจ่าย</th>
+                                        <th>บัตรชั่ง/<br />ใบนำส่ง</th>
+                                        <th>แบทช์</th>
+                                        <th>ผู้รับ</th>
+                                        <th>วันที่ชั่ง</th>
+                                        <th>ผู้ค้า<br />กากน้ำตาล</th>
+                                        <th>บริษัท<br />ผู้ส่ง</th>
+                                        <th>บริษัท<br />ขนส่ง</th>
+                                        <th class="text-nowrap">น้ำหนัก<br />ต้นทาง</th>
+                                        <th class="text-nowrap">น้ำหนัก<br />ปลายทาง</th>
+                                        <th>ผลต่าง</th>
+                                        <th>ถังเก็บ</th>
+                                        <th>%ความหวาน</th>
+                                        <th>บริกซ์</th>
+                                        <th>ถ.พ.</th>
+                                        <th>อุณหภูมิ<br />รับเข้า</th>
+                                        <th>เวลา<br />ลงเสร็จ</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody class="text-center"></tbody>
+                                    <tfoot class="font-weight-bold">
+                                      <tr>
+                                        <td class="text-center" colspan="4">รวมทั้งสิ้น</td>
+                                        <td class="text-center">4</td>
+                                        <td colspan="4">คัน</td>
+                                        <td class="text-center">129,020</td>
+                                        <td class="text-center">128,780</td>
+                                        <td class="text-center">-240</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center">51.72</td>
+                                        <td class="text-center">81.18</td>
+                                        <td class="text-center">1.3978</td>
+                                        <td class="text-center" colspan="3"></td>
+                                      </tr>
+                                    </tfoot>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-12 d-none" id="customerlist" >
+                                <div class="table-responsive mt-2" style="font-size: 13px">
+                                  <table class="table table-sm my-0 display text-nowrap w-100" id="tbMolassesCustomer">
+                                    <thead>
+                                      <tr class="text-center">
+                                        <th>โรงงานน้ำตาล</th>
+                                        <th>ขนส่ง</th>
+                                        <th>น้ำหนัก<br />ต้นทาง</th>
+                                        <th>น้ำหนัก<br />ปลายทาง</th>
+                                        <th>น้ำหนัก<br />ผลต่าง</th>
+                                        <th>จำนวนตั๋วขน</th>
+                                        <th>ถังเก็บ</th>
+                                        <th>%ความหวาน</th>
+                                        <th>บริกซ์</th>
+                                        <th>ถ.พ.</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                      <tr>
+                                        <td>โรงงานน้ำตาลไทยเอกลักษณ์</td>
+                                        <td>สง่าขนส่ง</td>
+                                        <td>30,610</td>
+                                        <td>30,620</td>
+                                        <td>10</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>51.90</td>
+                                        <td>81.21</td>
+                                        <td>1.3978</td>
+                                      </tr>
+                                    </tbody>
+                                    <tfoot class="font-weight-bold">
+                                      <tr>
+                                        <td class="text-center" colspan="2">รวม</td>
+                                        <td class="text-center">30,610</td>
+                                        <td class="text-center">30,620</td>
+                                        <td class="text-center">10</td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">51.90</td>
+                                        <td class="text-center">81.21</td>
+                                        <td class="text-center">1.3978</td>
+                                      </tr>
+                                    </tfoot>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <script src="js/DateTime.js"></script>
+    <script src="js/dataTables.min.js"></script>
+    <script src="js/jquery.easing.js"></script>
+    <script src="js/Imgpreview.js"></script>
+    <script src="js/report.js"></script>
+    <script src="js/SidePanel.js"></script>
+    <script src="js/sortTable.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/print.js"></script>
+
+    <script src="js/swalalert2.js"></script>
+    <script src="Report.js"></script>
+  </body>
+</html>

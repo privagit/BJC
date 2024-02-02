@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>BJC-ATS</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="fonts/fontStyle.css" />
+    <link rel="stylesheet" href="fonts/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="fonts/fontawesome5-overrides.min.css" />
+    <link rel="stylesheet" href="css/AnimatePageChange.css" />
+    <link rel="stylesheet" href="css/EditCard.css" />
+    <link rel="stylesheet" href="css/dataTables.min.css" />
+    <link rel="stylesheet" href="css/NavCustomStyle.css" />
+    <link rel="stylesheet" href="css/PageHeader.css" />
+    <link rel="stylesheet" href="css/ScrollBar.css" />
+    <link rel="stylesheet" href="css/SidePanel.css" />
+    <link rel="stylesheet" href="css/Stats-icons.css" />
+    <link rel="stylesheet" href="css/StatusCard.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body id="page-top" class="animated--grow-in">
+    <div id="contentWrapper">
+      <header class="pageheader">
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-info btn-sm openbtn" type="button" onclick="openNav()">
+            <i class="fa fa-navicon"></i>
+            <span class="d-none d-lg-inline d-xl-inline">&nbsp;เมนู</span>
+          </button>
+          <h5 class="d-inline my-0 mx-5">Auto Truck Scale System</h5>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <span class="float-right" id="show_username">Username</span>
+
+          <form action="/user/logout" method="get">
+            <button class="btn btn-info btn-sm float-right mx-2" type="submit">
+              <i class="fa fa-sign-out m-1"></i></span>
+            </button>
+          </form>
+          <input
+          class="d-none float-right d-md-flex"
+          type="text"
+          id="currentDateTime"
+          readonly=""
+          disabled=""
+          style="text-align: center; margin-top: 0px; width: auto"
+        />
+        </div>
+      </header>
+      <div id="sidepanel" class="sidepanel rounded shadow-lg">
+        <button class="btn btn-link float-right p-0 closebtn" type="button" onclick="closeNav()">
+          <i class="fa fa-close"></i>
+        </button>
+        <h4 class="text-black-50 m-3" style="font-style: italic">เมนู</h4>
+        <div class="container">
+          <a href="/"><i class="fa fa-home mr-2"></i>หน้าแรก</a>
+          <a href="/scalelist"><i class="fa fa-balance-scale mr-2"></i>รายการชั่ง</a>
+          <a href="/scaleplan"><i class="fa fa-list-alt mr-2"></i>แผนการชั่ง</a>
+          <a href="/scalereport"><i class="fa fa-clipboard mr-2"></i>รายงาน</a><span>ข้อมูล</span>
+          <a href="/customer"><i class="fa fa-user-circle mr-2"></i>ข้อมูลลูกค้า</a>
+          <a href="/product"><i class="fa fa-cubes mr-2"></i>ข้อมูลสินค้า</a>
+          <a href="/vehicle"><i class="fa fa-truck mr-2"></i>ข้อมูลทะเบียนรถ</a>
+          <a href="/masterfactory"><i class="fa fa-industry mr-2"></i>ข้อมูลโรงงาน</a>
+          <a href="/usersetting"><i class="fa fa-users mr-2"></i>ข้อมูลบัญชีผู้ใช้</a>
+          <a href="/about"><i class="fa fa-server mr-2"></i>ข้อมูลโปรแกรม</a>
+        </div>
+      </div>
+      <div id="content" class="p-2 animate-in" style="margin-left: 220px; height: 90vh">
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalCardDetail">
+          <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <form>
+                <div class="modal-header">
+                  <h4 class="modal-title">ข้อมูลสินค้า</h4>
+                  <button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-row mb-1">
+                    <div class="col d-flex justify-content-end">
+                     
+                      <button class="btn btn-warning d-none" id="print-weight-card" type="button" onclick="printPageArea('#weight-card','weight-card')">
+                        <i class="fa fa-print"></i>ปริ้นท์บัตรชั่ง
+                      </button >
+                      <button class="btn btn-info ml-2 btn-card-toggle" id="button_inModal_cardEdit" type="button" >แก้ไข</button>
+                      <button class="btn btn-primary ml-2 btn-card-toggle d-none" id="button_inModal_cardSubmit" type="button" ">บันทึก</button>
+                    </div>
+                  </div>
+                  <div class="card" >
+                    <div class="card-body" style="border-style: none; background: rgb(255, 255, 255); font-size: 13px;" id="weight-card">
+                      <div class="form-row pb-3 border-bottom">
+                        <div class="col">
+                          <p class="m-0" id="p_inModalCard_factoryName">บริษัท มงคลสมัย จำกัด</p>
+                          <p class="m-0" id="p_inModalCard_factoryAddress">149 ม.5 ต.ผาจุก อ.เมือง จ.อุตรดิตถ์ 53000</p>
+                          <p class="m-0" id="p_inModalCard_factoryTel">โทร 0-55449126-7</p>
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                          <p style="font-family: Exo, sans-serif"><strong>บัตรชั่ง/ใบรับสินค้า</strong></p>
+                        </div>
+                      </div>
+                      <div class="form-row mt-2">
+                        <div class="col">
+                          <h6 class="m-0" style="font-family: Exo, sans-serif">
+                            <strong>บัตรชั่งเลขที่&nbsp;</strong><span id="span_inModalCard_cardNo">202208310001</span><br />
+                          </h6>
+                        </div>
+                        <div class="col-auto text-right">
+                          <h6 class="text-muted m-0">วันที่:&nbsp;<span id="span_inModalCard_cardDate">2022-08-31</span></h6>
+                        </div>
+                      </div>
+                      <div class="form-row my-1">
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left"><label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">ทะเบียนรถ</label></div>
+                            <div class="col-6">
+                              <input class="form-control form-control-sm editable" type="text" disabled="" id="input_inModalCard_vehiclePlate" value="111111-001" style="border-style: none" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left">
+                              <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">ประเภทการชั่ง</label>
+                            </div>
+                            <div class="col-6">
+                              <input class="form-control form-control-sm editable" type="text" disabled="" id="input_inModalCard_weightType" style="border-style: none" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-row my-1">
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left">
+                              <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">บริษัท/Company</label>
+                            </div>
+                            <div class="col-6">
+                              <input class="form-control form-control-sm editable" type="text" disabled="" id="input_inModalCard_customer" style="border-style: none" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left">
+                              <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">บริษัทขนส่ง/Shipping</label>
+                            </div>
+                            <div class="col-6">
+                              <input class="form-control form-control-sm editable" type="text" disabled="" id="input_inModalCard_shipper" style="border-style: none" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="col-4 col-lg-3 col-xl-2 text-left">
+                          <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">สินค้า/Product</label>
+                        </div>
+                        <div class="col">
+                          <input class="form-control form-control-sm editable" type="text" disabled="" id="input_inModalCard_product" style="border-style: none" />
+                        </div>
+                      </div>
+                      <div class="form-row my-1">
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left"><label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">เลขที่บิล:</label></div>
+                            <div class="col">
+                              <input
+                                class="form-control form-control-sm editable"
+                                type="text"
+                                id="input_inModalCard_billNo"
+                                disabled=""
+                                value="22020393"
+                                style="border-style: none"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left">
+                              <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">น้ำหนักตามบิล:</label>
+                            </div>
+                            <div class="col">
+                              <input
+                                class="form-control form-control-sm editable"
+                                type="text"
+                                id="input_inModalCard_billWeight"
+                                disabled=""
+                                value="12000"
+                                style="border-style: none"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-row my-1">
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left">
+                              <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">น้ำหนักเพิ่มลด:</label>
+                            </div>
+                            <div class="col">
+                              <input class="form-control form-control-sm editable" type="text" id="input_inModalCard_adjWeight"  disabled="" value="0" style="border-style: none" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left">
+                              <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">น้ำหนักสุทธิ:</label>
+                            </div>
+                            <div class="col">
+                              <input class="form-control form-control-sm editable" type="text" disabled="" id="input_inModalCard_netWeight" style="border-style: none" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="col-8 col-lg-5 col-xl-3 text-left">
+                          <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">ผลต่างน้ำหนักต้นทาง - ปลายทาง:</label>
+                        </div>
+                        <div class="col"><input class="form-control form-control-sm editable" type="text" disabled="" id="input_inModalCard_difWeight" style="border-style: none" /></div>
+                      </div>
+                      <div class="form-row my-1">
+                        <div class="col-3 col-lg-2 text-left d-inline-flex align-items-start">
+                          <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">หมายเหตุ:</label>
+                        </div>
+                        <div class="col text-left d-inline-flex justify-content-between align-items-center">
+                          <textarea class="form-control form-control-sm editable" id="input_inModalCard_cardNote" disabled="" style="border-style: none;height: 35px;"></textarea>
+                        </div>
+                      </div>
+                      <div class="form-row row-cols-1 row-cols-md-2" style="font-size: 13px; margin-top: 5px; border-width: 2px; border-style: solid">
+                        <div class="col text-right" style="border-right-width: 2px; border-right-style: solid">
+                          <div class="form-row">
+                            <div class="col text-center py-2" style="border-bottom-width: 2px; border-bottom-style: solid">
+                              <strong style="font-size: 15px">รถเข้า</strong>
+                            </div>
+                          </div>
+                          <div class="form-row my-2">
+                            <div class="col-8 text-left d-inline-flex justify-content-between align-items-center m-auto">
+                              <span><strong>วันเวลารถเข้า:</strong></span
+                              ><span id="span_inModalCard_carInDate">31/8/2022 11:42</span>
+                            </div>
+                          </div>
+                          <div class="form-row mb-2">
+                            <div class="col-8 text-left d-inline-flex justify-content-between align-items-center m-auto">
+                              <span><strong>น้ำหนักรถเข้า:</strong></span
+                              ><span id="span_inModalCard_carInWeight">12000 กก.</span>
+                            </div>
+                          </div>
+                          <div class="form-row mb-2">
+                            <div class="col text-center">
+                              <div>
+                                <img class="m-1" id="image_inModalCard_inFont" src="" width="70%" height="100%" />
+                                <p id="noimage_inModalCard_inFont" class="d-none">ไม่มีรูปภาพขาเข้าด้านหน้า</p>
+                                <img class="m-1" id="image_inModalCard_inBack" src="" width="70%" height="100%" />
+                                <p id="noimage_inModalCard_inBack"  class="d-none">ไม่มีรูปภาพขาเข้าด้านหลัง</p>
+                                <img class="m-1" id="image_inModalCard_inTop" src="" width="70%" height="100%" />
+                                <p id="noimage_inModalCard_inTop" class="d-none">ไม่มีรูปภาพขาเข้าด้านบน</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col text-right">
+                          <div class="form-row">
+                            <div class="col text-center py-2" style="border-bottom-width: 2px; border-bottom-style: solid">
+                              <strong style="font-size: 15px">รถออก</strong>
+                            </div>
+                          </div>
+                          <div class="form-row my-2">
+                            <div class="col-8 text-left d-inline-flex justify-content-between align-items-center m-auto">
+                              <span><strong>วันเวลารถออก:</strong></span
+                              ><span id="span_inModalCard_carOutDate">31/8/2022 12:01</span>
+                            </div>
+                          </div>
+                          <div class="form-row mb-2">
+                            <div class="col-8 text-left d-inline-flex justify-content-between align-items-center m-auto">
+                              <span><strong>น้ำหนักรถออก:</strong></span
+                              ><span id="span_inModalCard_carOutWeight">24000 กก.</span>
+                            </div>
+                          </div>
+                          <div class="form-row mb-2">
+                            <div class="col text-center">
+                              <div>
+                                <img class="m-1" id="image_inModalCard_outFont" src="" width="70%" height="100%" />
+                                <p id="noimage_inModalCard_outFont" class="d-none">ไม่มีรูปภาพขาออกด้านหน้า</p>
+                                <img class="m-1" id="image_inModalCard_outBack" src="" width="70%" height="100%" />
+                                <p id="noimage_inModalCard_outBack" class="d-none">ไม่มีรูปภาพขาออกด้านหลัง</p>
+                                <img class="m-1" id="image_inModalCard_outTop" src="" width="70%" height="100%" />
+                                <p id="noimage_inModalCard_outTop" class="d-none">ไม่มีรูปภาพขาออกด้านบน</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-light" type="button" data-dismiss="modal" data-target="#modalCardDetail" data-toggle="modal">ปิด</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalPlanCardDetail">
+          <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <form>
+                <div class="modal-header">
+                  <h4 class="modal-title">ข้อมูลบัตรชั่ง</h4>
+                  <button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-row mb-1">
+                    <div class="col d-flex justify-content-end">
+                     
+                      <button class="btn btn-warning" id="print-weight-plan-card" type="button" onclick="printPageArea('#weight-plan-card','weight-plan-card')">
+                        <i class="fa fa-print"></i>ปริ้นท์บัตรชั่ง
+                      </button >
+                    </div>
+                  </div>
+                  <div class="card" >
+                    <div class="card-body" style="border-style: none; background: rgb(255, 255, 255); font-size: 13px;" id="weight-plan-card">
+                      <div class="d-flex justify-content-end align-items-center mb-2" > <span>Page : 1</span></div>
+                      <div class="form-row pb-3 border-bottom">
+                        <div class="col">
+                          <p class="m-0" id="p_inModalPlanCard_factoryName">บริษัท มงคลสมัย จำกัด</p>
+                          <p class="m-0" id="p_inModalPlanCard_factoryAddress">149 ม.5 ต.ผาจุก อ.เมือง จ.อุตรดิตถ์ 53000</p>
+                          <p class="m-0" id="p_inModalPlanCard_factoryTel">โทร 0-55449126-7</p>
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                          <p style="font-family: Exo, sans-serif"><strong>บัตรชั่ง/ใบรับสินค้า</strong></p>
+                        </div>
+                      </div>
+                      <div class="form-row mt-2">
+                        <div class="col">
+                          <h6 class="m-0" style="font-family: Exo, sans-serif">
+                            <strong>บัตรชั่งเลขที่&nbsp;</strong><span id="span_inModalPlanCard_cardNo">202208310001</span><br />
+                          </h6>
+                        </div>
+                        <div class="col-auto text-right">
+                          <h6 class="text-muted m-0 mb-1">วันที่รถเข้า: <span id="span_inModalPlanCard_dateIn">2022-08-31 08:00</span></h6>
+                          <h6 class="text-muted m-0">วันที่รถออก: <span id="span_inModalPlanCard_dateOut">2022-08-31 10:00</span></h6>
+                        </div>
+                      </div>
+                      <div class="form-row my-1">
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left"><label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">ทะเบียนรถ</label></div>
+                            <div class="col-6">
+                              <input class="form-control form-control-sm editable" type="text" disabled="" id="input_inModalPlanCard_vehiclePlate" value="111111-001" style="border-style: none" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left">
+                              <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">ประเภทการชั่ง</label>
+                            </div>
+                            <div class="col-6">
+                              <input class="form-control form-control-sm editable" type="text" disabled="" id="input_inModalPlanCard_weightType" style="border-style: none" value="ชั่งเข้า"/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-row my-1">
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left">
+                              <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">บริษัท</label>
+                            </div>
+                            <div class="col-6">
+                              <input class="form-control form-control-sm editable" type="text" disabled="" id="input_inModalPlanCard_customer" style="border-style: none" value="Company Name" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 text-left d-inline-flex justify-content-between align-items-center">
+                          <div class="form-row w-100">
+                            <div class="col-6 col-xl-4 text-left">
+                              <label class="col-form-label col-form-label-sm text-nowrap font-weight-bold">บริษัทขนส่ง</label>
+                            </div>
+                            <div class="col-6">
+                              <input class="form-control form-control-sm editable" type="text" disabled="" id="input_inModalPlanCard_shipper" style="border-style: none" value="Shiper Company Name"/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--* Table Product List *-->
+                      <div class="table-responsive my-2" style="font-size: 13px;">
+                        <table class="table table-sm table-bordered my-0 w-100 text-center" id="tbProductList">
+                          <thead >
+                            <tr>
+                              <th rowspan="2">ลำดับที่</th>                              
+                              <th rowspan="2">สินค้า</th>                              
+                              <th rowspan="2">เลขที่บิล</th>
+                              <th colspan="5">น้ำหนัก</th>
+                              <th rowspan="2">หมายเหตุ</th>
+                            </tr>
+                            <tr>
+                              <th>เข้า</th>
+                              <th>ออก</th>
+                              <th>ตามบิล</th>
+                              <th>สุทธิ</th>
+                              <th>ต้นทาง - ปลายทาง</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th>1</th>
+                              <th>Product A</th>
+                              <th>202401110001</th>
+                              <th>1000</th>
+                              <th>800</th>
+                              <th>200</th>
+                              <th>200</th>
+                              <th>0</th>
+                              <th>-</th>
+                            </tr>
+                            <tr>
+                              <th>2</th>
+                              <th>Product B</th>
+                              <th>202401110002</th>
+                              <th>1000</th>
+                              <th>800</th>
+                              <th>200</th>
+                              <th>200</th>
+                              <th>0</th>
+                              <th>-</th>
+                            </tr>
+                            <tr>
+                              <th>3</th>
+                              <th>Product C</th>
+                              <th>202401110003</th>
+                              <th>1000</th>
+                              <th>800</th>
+                              <th>200</th>
+                              <th>200</th>
+                              <th>0</th>
+                              <th>-</th>
+                            </tr>
+                            <tr>
+                              <th>4</th>
+                              <th>Product D</th>
+                              <th>202401110004</th>
+                              <th>1000</th>
+                              <th>800</th>
+                              <th>200</th>
+                              <th>200</th>
+                              <th>0</th>
+                              <th>-</th>
+                            </tr>
+                            <tr>
+                              <th>5</th>
+                              <th>Product E</th>
+                              <th>202401110005</th>
+                              <th>1000</th>
+                              <th>800</th>
+                              <th>200</th>
+                              <th>200</th>
+                              <th>0</th>
+                              <th>-</th>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div class="form-row" style="height: 90px;">
+                        <div class="col-3 d-flex justify-content-center align-items-end p-2"><span class="w-100 text-center p-1" style="border-top: 2px solid #111;">ผู้ชั่ง</span></div>
+                        <div class="col-3 d-flex justify-content-center align-items-end p-2"><span class="w-100 text-center p-1" style="border-top: 2px solid #111;">ผู้ส่ง</span></div>
+                        <div class="col-3 d-flex justify-content-center align-items-end p-2"><span class="w-100 text-center p-1" style="border-top: 2px solid #111;">ผู้ตรวจ</span></div>
+                        <div class="col-3 d-flex justify-content-center align-items-end p-2"><span class="w-100 text-center p-1" style="border-top: 2px solid #111;">ผู้รับ</span></div>
+                      </div>
+
+                      <div class="page-break my-2"></div>
+                      <div class="d-flex justify-content-end align-items-center mb-3" > <span>Page : 2</span></div>
+                      <div class="row m-0 " >
+                        <div class="col-12 p-0 mb-2" style="border-width: 2px; border-right: 1px;  border-style: solid">
+                          <div class="col text-center py-1" style="border-bottom-width: 2px; border-bottom-style: solid">
+                            <strong style="font-size: 15px">รถเข้า</strong>
+                          </div>
+                          <div class="d-flex justify-content-around align-items-center p-1">
+                            <img class="image-container" id="image_inModalPlanCard_inFont" src="/img/Vehicle/20231123150345_IF1.jpeg" />
+                            <p id="noimage_inModalPlanCard_inFont" class="m-0 d-none">ไม่มีรูปภาพขาเข้าด้านหน้า</p>
+                            <img class="image-container" id="image_inModalPlanCard_inBack" src="/img/Vehicle/20231123150345_IB1.jpeg" />
+                            <p id="noimage_inModalPlanCard_inBack"  class="m-0 d-none">ไม่มีรูปภาพขาเข้าด้านหลัง</p>
+                            <img class="image-container" id="image_inModalPlanCard_inTop" src="/img/Vehicle/20231123150345_IT1.jpeg" />
+                            <p id="noimage_inModalPlanCard_inTop" class="m-0 d-none">ไม่มีรูปภาพขาเข้าด้านบน</p>
+                          </div>
+                        </div>
+  
+                        <div class="col-12 p-0"  style="border-width: 2px; border-left: 1px; border-style: solid">
+                          <div class="col text-center py-1" style="border-bottom-width: 2px; border-bottom-style: solid">
+                            <strong style="font-size: 15px">รถออก</strong>
+                          </div>
+                          <div class="d-flex justify-content-around align-items-center p-1">
+                            <img class="image-container" id="image_inModalPlanCard_outFont" src="/img/Vehicle/20231123150345_OF2.jpeg" />
+                            <p id="noimage_inModalPlanCard_outFont" class="m-0 d-none">ไม่มีรูปภาพขาออกด้านหน้า</p>
+                            <img class="image-container" id="image_inModalPlanCard_outBack" src="/img/Vehicle/20231123150345_OB2.jpeg" />
+                            <p id="noimage_inModalPlanCard_outBack" class="m-0 d-none">ไม่มีรูปภาพขาออกด้านหลัง</p>
+                            <img class="image-container" id="image_inModalPlanCard_outTop" src="/img/Vehicle/20231123150345_OT2.jpeg"/>
+                            <p id="noimage_inModalPlanCard_outTop" class="m-0 d-none">ไม่มีรูปภาพขาออกด้านบน</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      
+                     
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-light" type="button" data-dismiss="modal" data-target="#modalPlanCardDetail" data-toggle="modal">ปิด</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col">
+              <h4><i class="fa fa-list-alt mx-3"></i>รายการชั่ง</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card-box p-2 rounded-lg shadow">
+                <div class="card mb-2 shadow" style="min-height: 75vh">
+                  <div class="card-body">
+                    <form>
+                      <div class="form-row">
+                        <div class="col-2 col-lg-1 text-right mb-2">
+                          <label class="col-form-label text-nowrap">วันที่</label>
+                        </div>
+                        <div class="col-4 col-lg-4 mb-2">
+                          <input class="form-control" id="input_fromDate" type="date" />
+                        </div>
+                        <div class="col-2 col-lg-1 text-center mb-2">
+                          <label class="col-form-label text-nowrap">ถึง</label>
+                        </div>
+                        <div class="col-4 col-lg-4 mb-2">
+                          <input class="form-control" id="input_toDate" type="date" />
+                        </div>
+                        <div class="col text-right">
+                          <button class="btn btn-secondary mb-2" type="button" id="button_plan_download">ดาวน์โหลด</button>
+                          <button class="btn btn-primary mb-2 d-none" type="button" id="button_plan_card">บัตรชั่ง</button>
+                        </div>
+                      </div>
+                    </form>
+                    <div class="row">
+                      <div class="col">
+                        <div class="table-responsive" style="font-size: 13px">
+                          <table class="table table-sm text-nowrap my-0 display w-100" id="tbWeightCard">
+                            <thead>
+                              <tr class="text-center">
+                                <th>ลำดับที่</th>
+                                <th>เลขที่บัตรชั่ง</th>
+                                <th>วันที่</th>
+                                <th>ทะเบียนรถ</th>
+                                <th>ทะเบียนพ่วง</th>
+                                <th>ลูกค้า</th>
+                                <th>ประเภทการชั่ง</th>
+                                <th>สินค้า</th>
+                                <th>น้ำหนักตามเอกสาร</th>
+                                <th>น้ำหนักเข้า</th>
+                                <th>น้ำหนักออก</th>
+                                <th>น้ำหนักสุทธิ</th>
+                                <th>สถานะ</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody class="text-center"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <script src="js/DateTime.js"></script>
+    <script src="js/dataTables.min.js"></script>
+    <script src="js/jquery.easing.js"></script>
+    <script src="js/Imgpreview.js"></script>
+    <script src="js/report.js"></script>
+    <script src="js/SidePanel.js"></script>
+    <script src="js/theme.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script> -->
+
+    <script src="js/html2pdf.bundle.min.js"></script>
+    <script src="js/print.js"></script>
+
+    <script src="js/swalalert2.js"></script>
+    <script src="ScaleList.js"></script>
+  </body>
+</html>

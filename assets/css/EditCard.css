@@ -1,0 +1,4 @@
+input.editable:disabled, textarea.editable:disabled {
+  background-color: #fff;
+}
+

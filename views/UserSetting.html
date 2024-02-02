@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>BJC-ATS</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="fonts/fontStyle.css" />
+    <link rel="stylesheet" href="fonts/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="fonts/fontawesome5-overrides.min.css" />
+    <link rel="stylesheet" href="css/AnimatePageChange.css" />
+    <link rel="stylesheet" href="css/EditCard.css" />
+    <link rel="stylesheet" href="css/dataTables.min.css" />
+    <link rel="stylesheet" href="css/NavCustomStyle.css" />
+    <link rel="stylesheet" href="css/PageHeader.css" />
+    <link rel="stylesheet" href="css/ScrollBar.css" />
+    <link rel="stylesheet" href="css/SidePanel.css" />
+    <link rel="stylesheet" href="css/Stats-icons.css" />
+    <link rel="stylesheet" href="css/StatusCard.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body id="page-top">
+    <div id="contentWrapper">
+      <header class="pageheader">
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-info btn-sm openbtn" type="button" onclick="openNav()">
+            <i class="fa fa-navicon"></i>
+            <span class="d-none d-lg-inline d-xl-inline">&nbsp;เมนู</span>
+          </button>
+          <h5 class="d-inline my-0 mx-5">Auto Truck Scale System</h5>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <span class="float-right" id="show_username">Username</span>
+
+          <form action="/user/logout" method="get">
+            <button class="btn btn-info btn-sm float-right mx-2" type="submit">
+              <i class="fa fa-sign-out m-1"></i></span>
+            </button>
+          </form>
+          <input
+          class="d-none float-right d-md-flex"
+          type="text"
+          id="currentDateTime"
+          readonly=""
+          disabled=""
+          style="text-align: center; margin-top: 0px; width: auto"
+        />
+        </div>
+      </header>
+      <div id="sidepanel" class="sidepanel rounded shadow-lg">
+        <button class="btn btn-link float-right p-0 closebtn" type="button" onclick="closeNav()">
+          <i class="fa fa-close"></i>
+        </button>
+        <h4 class="text-black-50 m-3" style="font-style: italic">เมนู</h4>
+        <div class="container">
+          <a href="/"><i class="fa fa-home mr-2"></i>หน้าแรก</a>
+          <a href="/scalelist"><i class="fa fa-balance-scale mr-2"></i>รายการชั่ง</a>
+          <a href="/scaleplan"><i class="fa fa-list-alt mr-2"></i>แผนการชั่ง</a>
+          <a href="/scalereport"><i class="fa fa-clipboard mr-2"></i>รายงาน</a><span>ข้อมูล</span>
+          <a href="/customer"><i class="fa fa-user-circle mr-2"></i>ข้อมูลลูกค้า</a>
+          <a href="/product"><i class="fa fa-cubes mr-2"></i>ข้อมูลสินค้า</a>
+          <a href="/vehicle"><i class="fa fa-truck mr-2"></i>ข้อมูลทะเบียนรถ</a>
+          <a href="/masterfactory"><i class="fa fa-industry mr-2"></i>ข้อมูลโรงงาน</a>
+          <a href="/usersetting"><i class="fa fa-users mr-2"></i>ข้อมูลบัญชีผู้ใช้</a>
+          <a href="/about"><i class="fa fa-server mr-2"></i>ข้อมูลโปรแกรม</a>
+        </div>
+      </div>
+      <div id="content" class="p-2 animate-in" style="margin-left: 220px; height: 90vh">
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalUserAdd">
+          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">ข้อมูลบัญชีผู้ใช้</h4>
+                <button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-2 text-right">
+                      <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ชื่อผู้ใช้:</label>
+                    </div>
+                    <div class="col-6">
+                      <input class="form-control" type="text" id="modalAdd_Username" placeholder="กรอกชื่อผู้ใช้" required="" />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-2 text-right">
+                      <label class="col-form-label text-nowrap"><span class="text-danger">*</span>รหัสผ่าน:</label>
+                    </div>
+                    <div class="col-6">
+                      <input class="form-control" type="text" id="modalAdd_Password" placeholder="กรอกรหัสผ่าน" required="" />
+                    </div>
+                    <div class="col d-none" id="button_password">
+                      <button class="btn btn-secondary h-100" id="button_password_edit" type="button" title="เปลี่ยนรหัสผ่าน">
+                        <i class="fa fa-pencil-square-o m-1"></i>
+                      </button>
+                      <button class="btn btn-success h-100 d-none" id="button_password_save" type="button" title="บันทึกรหัสผ่าน">
+                        <i class="fa fa-save m-1"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-2 text-right">
+                      <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ชื่อ:</label>
+                    </div>
+                    <div class="col-3"><input class="form-control" type="text" id="modalAdd_FName" placeholder="กรอกชื่อจริง" required="" /></div>
+                    <div class="col-2 text-right">
+                      <label class="col-form-label text-nowrap"><span class="text-danger">*</span>นามสกุล:</label>
+                    </div>
+                    <div class="col-3"><input class="form-control" type="text" id="modalAdd_LName" placeholder="กรอกนามสกุล" required="" /></div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-2 text-right">
+                      <label class="col-form-label text-nowrap"><span class="text-danger">*</span>แผนก:</label>
+                    </div>
+                    <div class="col-3">
+                      <input class="form-control" type="text" id="modalAdd_Department" placeholder="กรอกชื่อแผนก" required="" />
+                    </div>
+                    <div class="col-2 text-right">
+                      <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ตำแหน่ง:</label>
+                    </div>
+                    <div class="col-3">
+                      <input class="form-control" type="text" id="modalAdd_Position" placeholder="กรอกชื่อตำแหน่ง" required="" />
+                    </div>
+                  </div>
+                </div>
+                <div class="card h-100 shadow">
+                  <div class="card-body">
+                    <h5 style="font-weight: bold; text-decoration: underline">ตั้งค่าการอนุญาต</h5>
+                    <div class="table-responsive table mt-2" style="font-size: 13px">
+                      <table class="table table-hover table-bordered table-sm my-0" id="tbUserList">
+                        <thead style="background: rgb(226, 252, 255)">
+                          <tr class="text-center">
+                            <th>โมดูล</th>
+                            <th>หน้า</th>
+                            <th>ไม่มี</th>
+                            <th>เข้าชม</th>
+                            <th><strong>เข้าชม</strong>และแก้ไข</th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-center">
+                          <tr>
+                            <td style="vertical-align:middle">ตั้งค่าผู้ใช้</td>
+                            <td>ข้อมูลบัญชีผู้ใช้</td>
+                            <td><input type="radio" name="userSetting" data-value="0"></td>
+                            <td><input type="radio" name="userSetting" data-value="1"></td>
+                            <td><input type="radio" name="userSetting" data-value="2"></td>
+                          </tr>
+                          <tr>
+                            <td rowspan="4" style="vertical-align:middle">ตั้งค่าข้อมูล</td>
+                            <td>ข้อมูลโรงงาน</td>
+                            <td><input type="radio" name="factorySetting" data-value="0"></td>
+                            <td><input type="radio" name="factorySetting" data-value="1"></td>
+                            <td><input type="radio" name="factorySetting" data-value="2"></td>
+                          </tr>
+                          <tr>
+                            <td>ข้อมูลลูกค้า</td>
+                            <td><input type="radio" name="customerSetting" data-value="0"></td>
+                            <td><input type="radio" name="customerSetting" data-value="1"></td>
+                            <td><input type="radio" name="customerSetting" data-value="2"></td>
+                          </tr>
+                          <tr>
+                            <td>ข้อมูลสินค้า</td>
+                            <td><input type="radio" name="productSetting" data-value="0"></td>
+                            <td><input type="radio" name="productSetting" data-value="1"></td>
+                            <td><input type="radio" name="productSetting" data-value="2"></td>
+                          </tr>
+                          <tr>
+                            <td>ข้อมูลทะเบียนรถ</td>
+                            <td><input type="radio" name="vehicleSetting" data-value="0"></td>
+                            <td><input type="radio" name="vehicleSetting" data-value="1"></td>
+                            <td><input type="radio" name="vehicleSetting" data-value="2"></td>
+                          </tr>
+                          <tr>
+                            <td rowspan="2" style="vertical-align:middle">การชั่ง</td>
+                            <td>รายการชั่ง</td>
+                            <td><input type="radio" name="weightCard" data-value="0"></td>
+                            <td><input type="radio" name="weightCard" data-value="1"></td>
+                            <td><input type="radio" name="weightCard" data-value="2"></td>
+                          </tr>
+                          <tr>
+                            <td>แผนการชั่ง</td>
+                            <td><input type="radio" name="weightPlan" data-value="0"></td>
+                            <td><input type="radio" name="weightPlan" data-value="1"></td>
+                            <td><input type="radio" name="weightPlan" data-value="2"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-dismiss="modal">ปิด</button
+                ><button class="btn btn-primary" type="submit" id="button_inModal_saveUser">บันทึก</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalUserPassword">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">เปลี่ยนรหัสผ่าน</h4>
+                <button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-4 text-right">
+                      <label class="col-form-label text-nowrap"><span class="text-danger">*</span>รหัสผ่าน:</label>
+                    </div>
+                    <div class="col-6"><input class="form-control" type="password" /></div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-dismiss="modal">ปิด</button
+                ><button class="btn btn-primary float-right" id="SaveEditUserBtn-2" type="button">บันทึกรหัสผ่าน</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalUserDel">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">ลบข้อมูลบัญชีผู้ใช้</h4>
+                <button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+              </div>
+              <div class="modal-body">
+                <p>ต้องการลบข้อมูลบัญชีผู้ใช้ใช่หรือไม่?</p>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-dismiss="modal" data-target="#modalUserDel" data-toggle="modal">ไม่ใช่</button
+                ><button class="btn btn-primary" id="YesBtn" type="submit">ใช่</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col">
+              <h4><i class="fa fa-users mx-3"></i>ข้อมูลบัญชีผู้ใช้</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card-box p-2 rounded-lg shadow">
+                <div class="card mb-2 rounded-lg" style="min-height: 75vh">
+                  <div class="card-body">
+                    <div class="form-row">
+                      <div class="col">
+                        <button class="btn btn-primary float-right" type="button" id="button_user_add">เพิ่มบัญชีผู้ใช้</button>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col">
+                        <div class="table-responsive mt-2" style="font-size: 13px">
+                          <table class="table table-sm my-0 text-nowrap w-100 display" id="tbUser">
+                            <thead>
+                              <tr class="text-center">
+                                <th>ลำดับ</th>
+                                <th>ชื่อผู้ใช้</th>
+                                <th>รหัสผ่าน</th>
+                                <th>ชื่อ</th>
+                                <th>นามสกุล</th>
+                                <th>แผนก</th>
+                                <th>ตำแหน่ง</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody class="text-center"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <script src="js/DateTime.js"></script>
+    <script src="js/dataTables.min.js"></script>
+    <script src="js/jquery.easing.js"></script>
+    <script src="js/Imgpreview.js"></script>
+    <script src="js/report.js"></script>
+    <script src="js/SidePanel.js"></script>
+    <!-- <script src="js/sortTable.js"></script> -->
+    <script src="js/theme.js"></script>
+    <script src="js/print.js"></script>
+
+    <script src="js/swalalert2.js"></script>
+    <script src="master_setting/MasterUser.js"></script>
+  </body>
+</html>

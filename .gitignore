@@ -1,0 +1,6 @@
+/node_modules
+/Installation
+# /public/
+# *.env
+*.log
+*.zip

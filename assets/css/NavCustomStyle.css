@@ -1,0 +1,58 @@
+.navbar-nav > .nav-item {
+  /*height: 10vh;*/
+}
+
+@media (min-width: 577px) {
+  .navbar-text {
+    font-size: x-large;
+  }
+}
+
+@media (min-width: 768px) {
+  .sidenavtext {
+    /*font-size: medium;*/
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-text {
+    font-size: smaller;
+  }
+}
+
+.navbar-nav > .nav-item > .nav-link.active {
+  /*border-radius: 2px;*/
+  /*border-right: 8px groove var(--cyan);*/
+  /*background-color: rgb(39,184,155);*/
+}
+
+.nav-tabs > .nav-item > a:not(active) {
+  color: var(--light);
+}
+
+.border.rounded-circle.imgprofile {
+  width: 2rem;
+  height: 2rem;
+}
+
+.nav-item.d-xl-flex.align-items-xl-center.sidenavitem {
+  height: 10vh;
+}
+
+.nav-bar-top {
+  border-top: 5px solid #006663;
+  background-color: rgb(39,184,155);
+}
+
+.dropdown-menu.show.shadow.dropdown-menu-right.animated--grow-in {
+  background-color: #7bd6bb;
+}
+
+.dropdown-menu > .dropdown-item {
+  color: lightcyan;
+}
+
+.feat-icon {
+  color: teal;
+}
+

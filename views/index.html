@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>BJC-ATS</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="fonts/fontStyle.css" />
+    <link rel="stylesheet" href="fonts/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="fonts/fontawesome5-overrides.min.css" />
+    <link rel="stylesheet" href="css/AnimatePageChange.css" />
+    <link rel="stylesheet" href="css/EditCard.css" />
+    <link rel="stylesheet" href="css/dataTables.min.css" />
+    <link rel="stylesheet" href="css/NavCustomStyle.css" />
+    <link rel="stylesheet" href="css/PageHeader.css" />
+    <link rel="stylesheet" href="css/ScrollBar.css" />
+    <link rel="stylesheet" href="css/SidePanel.css" />
+    <link rel="stylesheet" href="css/Stats-icons.css" />
+    <link rel="stylesheet" href="css/StatusCard.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body id="page-top">
+    <div id="contentWrapper">
+      <header class="pageheader">
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-info btn-sm openbtn" type="button" onclick="openNav()">
+            <i class="fa fa-navicon"></i>
+            <span class="d-none d-lg-inline d-xl-inline">&nbsp;เมนู</span>
+          </button>
+          <h5 class="d-inline my-0 mx-5">Auto Truck Scale System</h5>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <span class="float-right" id="show_username">Username</span>
+
+          <form action="/user/logout" method="get">
+            <button class="btn btn-info btn-sm float-right mx-2" type="submit">
+              <i class="fa fa-sign-out m-1"></i></span>
+            </button>
+          </form>
+          <input
+          class="d-none float-right d-md-flex"
+          type="text"
+          id="currentDateTime"
+          readonly=""
+          disabled=""
+          style="text-align: center; margin-top: 0px; width: auto"
+        />
+        </div>
+      </header>
+      <div id="sidepanel" class="sidepanel rounded shadow-lg">
+        <button class="btn btn-link float-right p-0 closebtn" type="button" onclick="closeNav()">
+          <i class="fa fa-close"></i>
+        </button>
+        <h4 class="text-black-50 m-3" style="font-style: italic">เมนู</h4>
+        <div class="container">
+          <a href="/"><i class="fa fa-home mr-2"></i>หน้าแรก</a>
+          <a href="/scalelist"><i class="fa fa-balance-scale mr-2"></i>รายการชั่ง</a>
+          <a href="/scaleplan"><i class="fa fa-list-alt mr-2"></i>แผนการชั่ง</a>
+          <a href="/scalereport"><i class="fa fa-clipboard mr-2"></i>รายงาน</a><span>ข้อมูล</span>
+          <a href="/customer"><i class="fa fa-user-circle mr-2"></i>ข้อมูลลูกค้า</a>
+          <a href="/product"><i class="fa fa-cubes mr-2"></i>ข้อมูลสินค้า</a>
+          <a href="/vehicle"><i class="fa fa-truck mr-2"></i>ข้อมูลทะเบียนรถ</a>
+          <a href="/masterfactory"><i class="fa fa-industry mr-2"></i>ข้อมูลโรงงาน</a>
+          <a href="/usersetting"><i class="fa fa-users mr-2"></i>ข้อมูลบัญชีผู้ใช้</a>
+          <a href="/about"><i class="fa fa-server mr-2"></i>ข้อมูลโปรแกรม</a>
+        </div>
+      </div>
+      <div id="content" class="p-2 animate-in" style="margin-left: 220px; height: 90vh">
+        <div class="container py-4 py-xl-5">
+          <div class="row mb-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+              <h2 class="font-weight-bold" style="font-family: Prompt, sans-serif">ภาพรวมวันนี้</h2>
+              <p class="text-secondary w-lg-50">แสดงภาพรวมการใช้งานวันนี้</p>
+            </div>
+          </div>
+          <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+            <div class="col mb-4">
+              <div class="card shadow">
+                <div class="card-body p-4">
+                  <div
+                    class="bs-icon-md bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center d-inline-block mb-3 bs-icon"
+                  >
+                    <i class="fa fa-list-alt"></i>
+                  </div>
+                  <h4 class="font-weight-bold card-title">รายการชั่ง</h4>
+                  <p class="text-secondary card-text">จำนวนรายการชั่ง</p>
+                  <p class="font-weight-bold text-right card-text" style="font-size: 35px" id="p_index_totalList">100</p>
+                </div>
+                <div class="card-footer text-right">
+                  <a href="/scalelist">ไปหน้ารายการชั่ง</a>
+                </div>
+              </div>
+            </div>
+            <div class="col mb-4">
+              <div class="card shadow">
+                <div class="card-body p-4">
+                  <div
+                    class="bs-icon-md bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center d-inline-block mb-3 bs-icon"
+                  >
+                    <i class="fa fa-user-circle-o"></i>
+                  </div>
+                  <h4 class="font-weight-bold card-title">ลูกค้า</h4>
+                  <p class="text-secondary card-text">จำนวนลูกค้าเข้า/ออก</p>
+                  <p class="font-weight-bold text-right card-text" style="font-size: 35px" id="p_index_customer">25</p>
+                </div>
+                <div class="card-footer text-right">
+                  <a href="/customer">ไปหน้าข้อมูลลูกค้า</a>
+                </div>
+              </div>
+            </div>
+            <div class="col mb-4">
+              <div class="card shadow-lg">
+                <div class="card-body p-4">
+                  <div
+                    class="bs-icon-md bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center d-inline-block mb-3 bs-icon"
+                  >
+                    <i class="fa fa-cubes"></i>
+                  </div>
+                  <h4 class="font-weight-bold card-title">สินค้า</h4>
+                  <p class="text-secondary card-text">จำนวนสินค้าเข้า/ออก</p>
+                  <p class="font-weight-bold text-right card-text" style="font-size: 35px" id="p_index_product">90</p>
+                </div>
+                <div class="card-footer text-right">
+                  <a href="/product">ไปหน้าข้อมูลสินค้า</a>
+                </div>
+              </div>
+            </div>
+            <div class="col mb-4">
+              <div class="card shadow-lg">
+                <div class="card-body p-4">
+                  <div
+                    class="bs-icon-md bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center d-inline-block mb-3 bs-icon"
+                  >
+                    <i class="fa fa-truck"></i>
+                  </div>
+                  <h4 class="font-weight-bold card-title">รถเข้า/ออก</h4>
+                  <p class="text-secondary card-text">จำนวนรถเข้า/ออก</p>
+                  <p class="font-weight-bold text-right card-text" style="font-size: 35px" id="p_index_traffic">40</p>
+                </div>
+                <div class="card-footer text-right" id="tempFooter">
+                  <a href="/vehicle">ไปหน้าข้อมูลทะเบียนรถ</a>
+                </div>
+              </div>
+            </div>
+            <div class="col mb-4">
+              <div class="card shadow-lg">
+                <div class="card-body p-4">
+                  <div
+                    class="bs-icon-md bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center d-inline-block mb-3 bs-icon"
+                  >
+                    <i class="fa fa-balance-scale"></i>
+                  </div>
+                  <h4 class="font-weight-bold card-title">น้ำหนัก</h4>
+                  <p class="text-secondary card-text">ปริมาณน้ำหนักที่ชั่ง</p>
+                  <p class="font-weight-bold text-right card-text" style="font-size: 35px" id="p_index_totalWeight">254220</p>
+                </div>
+                <div class="card-footer text-right target-footer"></div>
+              </div>
+            </div>
+            <div class="col mb-4">
+              <div class="card shadow-lg">
+                <div class="card-body p-4">
+                  <div
+                    class="bs-icon-md bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center d-inline-block mb-3 bs-icon"
+                  >
+                    <i class="fa fa-hourglass-2"></i>
+                  </div>
+                  <h4 class="font-weight-bold card-title">รอการชั่ง</h4>
+                  <p class="text-secondary card-text">จำนวนรายการที่กำลังรอ</p>
+                  <p class="font-weight-bold text-right card-text" style="font-size: 35px" id="p_index_remainList">10</p>
+                </div>
+                <div class="card-footer text-right target-footer" ></div>
+              </div>
+            </div>
+            <div class="col mb-4">
+              <div class="card shadow-lg">
+                <div class="card-body p-4">
+                  <div
+                    class="bs-icon-md bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center d-inline-block mb-3 bs-icon"
+                  >
+                    <i class="fa fa-check-circle"></i>
+                  </div>
+                  <h4 class="font-weight-bold card-title">ชั่งสำเร็จ</h4>
+                  <p class="text-secondary card-text">จำนวนรายการที่สำเร็จ</p>
+                  <p class="font-weight-bold text-right card-text" style="font-size: 35px" id="p_index_completeList">90</p>
+                </div>
+                <div class="card-footer text-right target-footer" ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <script src="js/DateTime.js"></script>
+    <script src="js/dataTables.min.js"></script>
+    <script src="js/jquery.easing.js"></script>
+    <script src="js/Imgpreview.js"></script>
+    <script src="js/report.js"></script>
+    <script src="js/SidePanel.js"></script>
+    <script src="js/sortTable.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/print.js"></script>
+
+    <script src="main/script.js"></script>
+  </body>
+</html>

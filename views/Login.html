@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>BJC-ATS</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="fonts/fontStyle.css" />
+    <link rel="stylesheet" href="css/AnimatePageChange.css" />
+    <link rel="stylesheet" href="css/EditCard.css" />
+    <link rel="stylesheet" href="css/dataTables.min.css" />
+    <link rel="stylesheet" href="css/NavCustomStyle.css" />
+    <link rel="stylesheet" href="css/PageHeader.css" />
+    <link rel="stylesheet" href="css/ScrollBar.css" />
+    <link rel="stylesheet" href="css/SidePanel.css" />
+    <link rel="stylesheet" href="css/Stats-icons.css" />
+    <link rel="stylesheet" href="css/StatusCard.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body style="font-family: Exo, sans-serif">
+    <div id="content">
+      <div class="container-fluid d-flex d-xl-flex justify-content-center align-items-center" style="height: 100vh">
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="row">
+              <div class="col d-flex flex-column justify-content-center align-items-xl-center">
+                <img src="img/clipboard-image-1.png" width="150" />
+                <h1 class="text-shadow">Auto Truck Scale System</h1>
+                <p>บริษัท มงคลสมัย จำกัด</p>
+              </div>
+            </div>
+            <!-- <form action="/user/login" method="post"> -->
+            <form id="form_login"">
+              <div class="form-row m-2 px-5" id="alert"></div>
+              <div class="form-row m-2">
+                <div class="col px-5">
+                  <span>Username :</span>
+                  <input class="form-control" type="text" id="inputUsername" name="Username" required="" />
+                </div>
+              </div>
+              <div class="form-row m-2">
+                <div class="col px-5">
+                  <span>Password:</span>
+                  <input class="form-control" type="password" id="inputPassword" name="Password" required="" />
+                </div>
+              </div>
+              <div class="form-row m-2">
+                <div class="col px-5">
+                  <button class="btn btn-info w-100" type="button" onclick="submitForm()">Login</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="bg-white sticky-footer mt-2">
+      <div class="container my-auto">
+        <div class="text-center my-auto copyright"><span>Copyright © Priva Innotech 2023</span><span>Version: a20231010</span></div>
+      </div>
+    </footer>
+
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <!-- <script src="js/DateTime.js"></script> -->
+    <script src="js/dataTables.min.js"></script>
+    <script src="js/jquery.easing.js"></script>
+    <script src="js/Imgpreview.js"></script>
+    <script src="js/report.js"></script>
+    <script src="js/SidePanel.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/print.js"></script>
+
+    <script>
+      function submitForm() {
+        let form = document.getElementById("form_login");
+        let formData = new FormData(form);
+        let data = {};
+        formData.forEach(function (value, key) {
+          data[key] = value;
+        });
+
+        let {Username, Password} = data
+        if (!Username || !Password) {
+          $("#alert").html(`
+          <div class="alert alert-danger" role="alert">
+            กรุณาใส่ชื่อผู้ใช้และรหัสผ่าน
+          </div>
+          `)
+          return false; // Prevent form submission
+        }
+
+        
+        $.ajax({
+        url: '/user/login',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(res) {
+          window.location.href = "/"
+        },
+        error: function(error) {
+          $("#alert").html(`
+          <div class="alert alert-danger" role="alert">
+            ${error.responseJSON.message}
+          </div>
+          `)
+        }
+      });
+
+        return true; // Allow form submission
+      }
+    </script>
+  </body>
+</html>

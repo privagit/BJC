@@ -1,0 +1,78 @@
+.sidepanel {
+  height: 100%;
+  width: 215px;
+  position: absolute;
+  z-index: 1;
+  top: 60px;
+  left: 0px;
+  background-color: rgba(32, 201, 151, 0.12);
+  overflow-x: hidden;
+  padding: 10px;
+  /*transition: 0.5s;*/
+  display: initial;
+}
+
+.sidepanel.sidehide {
+  display: none;
+}
+
+.sidepanel span {
+  font-size: 15px;
+  margin-left: 15px;
+  margin-top: 25px;
+  color: var(--gray);
+  font-style: italic;
+}
+
+/* The sidepanel links */
+
+.sidepanel a {
+  padding: 8px 8px 8px 8px;
+  text-decoration: none;
+  font-size: 15px;
+  color: #006663;
+  display: block;
+  transition: 0.3s;
+  background-color: rgba(39, 184, 155, 0.11);
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.sidepanel i {
+  color: var(--gray-dark);
+}
+
+/* When you mouse over the navigation links, change their color */
+
+.sidepanel a:hover {
+  color: #444444;
+  text-decoration: none;
+  background-color: rgba(39, 184, 155, 0.35);
+  border-radius: 15px;
+}
+
+/* Position and style the close button (top right corner) */
+
+.sidepanel .closebtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  /*font-size: 36px;*/
+  /*margin-left: 50px;*/
+}
+
+/* Style the button that is used to open the sidepanel */
+
+.openbtn {
+  background-color: rgb(123, 214, 187);
+  color: #006663;
+  border: none;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+}
+
+.openbtn:hover {
+  background-color: rgba(39, 184, 155, 0.35);
+}

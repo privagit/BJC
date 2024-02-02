@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>BJC-ATS</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="fonts/fontStyle.css" />
+    <link rel="stylesheet" href="fonts/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="fonts/fontawesome5-overrides.min.css" />
+    <link rel="stylesheet" href="css/AnimatePageChange.css" />
+    <link rel="stylesheet" href="css/EditCard.css" />
+    <link rel="stylesheet" href="css/dataTables.min.css" />
+    <link rel="stylesheet" href="css/NavCustomStyle.css" />
+    <link rel="stylesheet" href="css/PageHeader.css" />
+    <link rel="stylesheet" href="css/ScrollBar.css" />
+    <link rel="stylesheet" href="css/SidePanel.css" />
+    <link rel="stylesheet" href="css/Stats-icons.css" />
+    <link rel="stylesheet" href="css/StatusCard.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body id="page-top">
+    <div id="contentWrapper">
+      <header class="pageheader">
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-info btn-sm openbtn" type="button" onclick="openNav()">
+            <i class="fa fa-navicon"></i>
+            <span class="d-none d-lg-inline d-xl-inline">&nbsp;เมนู</span>
+          </button>
+          <h5 class="d-inline my-0 mx-5">Auto Truck Scale System</h5>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <span class="float-right" id="show_username">Username</span>
+
+          <form action="/user/logout" method="get">
+            <button class="btn btn-info btn-sm float-right mx-2" type="submit">
+              <i class="fa fa-sign-out m-1"></i></span>
+            </button>
+          </form>
+          <input
+          class="d-none float-right d-md-flex"
+          type="text"
+          id="currentDateTime"
+          readonly=""
+          disabled=""
+          style="text-align: center; margin-top: 0px; width: auto"
+        />
+        </div>
+      </header>
+      <div id="sidepanel" class="sidepanel rounded shadow-lg">
+        <button class="btn btn-link float-right p-0 closebtn" type="button" onclick="closeNav()">
+          <i class="fa fa-close"></i>
+        </button>
+        <h4 class="text-black-50 m-3" style="font-style: italic">เมนู</h4>
+        <div class="container">
+          <a href="/"><i class="fa fa-home mr-2"></i>หน้าแรก</a>
+          <a href="/scalelist"><i class="fa fa-balance-scale mr-2"></i>รายการชั่ง</a>
+          <a href="/scaleplan"><i class="fa fa-list-alt mr-2"></i>แผนการชั่ง</a>
+          <a href="/scalereport"><i class="fa fa-clipboard mr-2"></i>รายงาน</a><span>ข้อมูล</span>
+          <a href="/customer"><i class="fa fa-user-circle mr-2"></i>ข้อมูลลูกค้า</a>
+          <a href="/product"><i class="fa fa-cubes mr-2"></i>ข้อมูลสินค้า</a>
+          <a href="/vehicle"><i class="fa fa-truck mr-2"></i>ข้อมูลทะเบียนรถ</a>
+          <a href="/masterfactory"><i class="fa fa-industry mr-2"></i>ข้อมูลโรงงาน</a>
+          <a href="/usersetting"><i class="fa fa-users mr-2"></i>ข้อมูลบัญชีผู้ใช้</a>
+          <a href="/about"><i class="fa fa-server mr-2"></i>ข้อมูลโปรแกรม</a>
+        </div>
+      </div>
+      <div id="content" class="p-2 animate-in" style="margin-left: 220px; height: 90vh">
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalProdDetail">
+          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">ข้อมูลสินค้า</h4>
+                <button class="close" type="button" aria-label="Close" data-dismiss="modal">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-3 text-right">
+                      <label class="col-form-label text-nowrap"><span class="text-danger">*</span>รหัสสินค้า:</label>
+                    </div>
+                    <div class="col-4">
+                      <input class="form-control" type="text" id="input_inModal_productCode" placeholder="รหัสสินค้า" required="" />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-3 text-right">
+                      <label class="col-form-label text-nowrap"><span class="text-danger">*</span>สินค้า:</label>
+                    </div>
+                    <div class="col-4">
+                      <input class="form-control" type="text" id="input_inModal_product" placeholder="ชื่อสินค้า" required="" />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-3 text-right">
+                      <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ประเภทสินค้า:</label>
+                    </div>
+                    <div class="col-4">
+                      <input class="form-control" type="text" placeholder="เลือกประเภทสินค้า" id="input_inModal_productType" list="prodtype_opt" />
+                      <datalist id="prodtype_opt">
+                        <option data-id="1" value="กากน้ำตาล" />
+                        <option data-id="2" value="สุรา" />
+                      </datalist>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-3 text-right">
+                      <label class="col-form-label text-nowrap">ราคา:</label>
+                    </div>
+                    <div class="col-4">
+                      <input class="form-control" type="number" id="input_inModal_price" required="" />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-3 text-right">
+                      <label class="col-form-label text-nowrap">น้ำหนัก:</label>
+                    </div>
+                    <div class="col-4">
+                      <input class="form-control" type="number" id="input_inModal_weight" required="" />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-3 text-right">
+                      <label class="col-form-label text-nowrap">หมายเหตุ:</label>
+                    </div>
+                    <div class="col-4">
+                      <textarea class="form-control" id="input_inModal_remark"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-dismiss="modal">ปิด</button
+                ><button class="btn btn-primary" type="submit" id="button_inModal_submitProduct">บันทึก</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalProdDel">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">ลบข้อมูลสินค้า</h4>
+                <button class="close" type="button" aria-label="Close" data-dismiss="modal">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>ต้องการลบข้อมูลสินค้าใช่หรือไม่?</p>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-dismiss="modal" data-target="#modalProdDel" data-toggle="modal">ไม่ใช่</button
+                ><button class="btn btn-primary" type="submit" id="button_inModal_submitDelete">ใช่</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalProdTypeDetail">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">ข้อมูลประเภทสินค้า</h4>
+                <button class="close" type="button" aria-label="Close" data-dismiss="modal">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-4 text-right">
+                      <label class="col-form-label text-nowrap"><span class="text-danger">*</span>ประเภทสินค้า</label>
+                    </div>
+                    <div class="col-6">
+                      <input class="form-control" type="text" id="input_inModal_type" placeholder="กรอกชื่อประเภทสินค้า" required="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-dismiss="modal">ปิด</button
+                ><button class="btn btn-primary" type="submit" id="button_inModal_submitProductType">บันทึก</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col">
+              <h4><i class="fa fa-cubes mx-3"></i>ข้อมูลสินค้า</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card-box p-2 rounded-lg shadow">
+                <div class="card shadow rounded-lg mb-2" style="min-height: 75vh">
+                  <div class="card-body">
+                    <div>
+                      <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <a class="nav-link active text-dark bg-light" role="tab" data-toggle="tab" href="#product">ทะเบียนสินค้า</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <a class="nav-link text-dark bg-light" role="tab" data-toggle="tab" href="#producttype">ประเภทสินค้า</a>
+                        </li>
+                      </ul>
+                      <div class="tab-content">
+                        <div class="tab-pane active" role="tabpanel" id="product">
+                          <form>
+                            <div class="form-row">
+                              <div class="col text-right">
+                                <button class="btn btn-primary float-right ml-2" type="button" id="button_product_add">เพิ่มสินค้า</button
+                                ><button class="btn btn-secondary ml-2" type="button" id="button_product_uploadFile">นำเข้าข้อมูล</button>
+                                <input class="d-none" type="file" id="input_product_uploadFile" accept=".xls,.xlsx" />
+
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col">
+                                <div class="table-responsive w-100 mt-2" style="font-size: 13px">
+                                  <table class="table table-sm my-0 text-nowrap display w-100" id="tbProd">
+                                    <thead>
+                                      <tr class="text-center">
+                                        <th>รหัสสินค้า</th>
+                                        <th>สินค้า</th>
+                                        <th>ประเภทสินค้า</th>
+                                        <th>ราคา</th>
+                                        <th>น้ำหนัก</th>
+                                        <th>หมายเหตุ</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody class="text-center"></tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="producttype">
+                          <form>
+                            <div class="form-row">
+                              <div class="col text-right">
+                                <button class="btn btn-primary float-right ml-2" type="button" id="button_productType_add">เพิ่มประเภทสินค้า</button>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col">
+                                <div class="table-responsive w-100 mt-2" style="font-size: 13px">
+                                  <table class="table table-sm my-0 display w-100" id="tbProdType">
+                                    <thead>
+                                      <tr class="text-center">
+                                        <th>ลำดับที่</th>
+                                        <th>ประเภทสินค้า</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody class="text-center"></tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <script src="js/DateTime.js"></script>
+    <script src="js/dataTables.min.js"></script>
+    <script src="js/jquery.easing.js"></script>
+    <script src="js/Imgpreview.js"></script>
+    <script src="js/report.js"></script>
+    <script src="js/SidePanel.js"></script>
+    <!-- <script src="js/sortTable.js"></script> -->
+    <script src="js/theme.js"></script>
+    <script src="js/print.js"></script>
+
+    <script src="js/swalalert2.js"></script>
+    <script src="master_setting/MasterProduct.js"></script>
+  </body>
+</html>

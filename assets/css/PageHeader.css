@@ -1,0 +1,14 @@
+.pageheader {
+  padding: 0.75rem;
+  background-color: #006663;
+  margin-bottom: 0.5rem;
+  color: #eef4f7;
+  height: 55px;
+  border-top: #7bd6bb;
+  border-top-style: solid;
+  font-family: "Prompt";
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
