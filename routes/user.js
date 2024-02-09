@@ -23,7 +23,7 @@ router.post("/login", async (req, res, next) => {
     let { UserId, FirstName, Permission } = login.recordset[0];
     req.session.isLoggedIn = true;
     req.session.UserId = UserId;
-    req.session.Name = decrypt(FirstName);
+    req.session.Name = FirstName;
     req.session.Auth = JSON.parse(Permission);
     res.redirect("/");
   } catch (err) {
@@ -41,8 +41,8 @@ router.get("/", async (req, res, next) => {
     let pool = await sql.connect(dbconfig);
     let users = await pool.request().query(`SELECT * ,row_number() over(order by UserId) as 'index' FROM Users`);
     for (let user of users.recordset) {
-      user.FirstName = decryptName(user.FirstName);
-      user.LastName = decryptName(user.LastName);
+      user.FirstName = user.FirstName;
+      user.LastName = user.LastName;
       user.Password = decrypt(user.Password);
     }
     res.status(200).send(JSON.stringify(users.recordset));

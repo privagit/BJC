@@ -26,9 +26,12 @@ router.get("/", async (req, res, next) => {
       LEFT JOIN MasterShipper c on a.ShipperId = c.ShipperId
       WHERE a.Active != 2
       ORDER BY
-          CASE WHEN ItemNo IS NULL THEN 1 ELSE 0 END ASC,
-          ItemNo ASC
+          CASE WHEN a.ItemNo IS NULL THEN 1 ELSE 0 END ASC,
+          a.ItemNo ASC
       `;
+    // ORDER BY
+    //     CASE WHEN ItemNo IS NULL THEN 1 ELSE 0 END ASC,
+    //     ItemNo ASC
     let pool = await sql.connect(dbconfig);
     let Vehicles = await pool.request().query(SelectVehicle);
     res.status(200).send(JSON.stringify(Vehicles.recordset));

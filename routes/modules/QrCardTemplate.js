@@ -65,6 +65,7 @@ const Layout = {
 const createQrCard = async (plan, cards) => {
   let { PlanNo } = plan;
   let data = cards.map((card) => cardTemplate(plan, card));
+  data.splice(0, 0, cardHeadTemplate(plan));
   let doc = {
     info: {
       title: `QR_${PlanNo}`,
@@ -72,8 +73,9 @@ const createQrCard = async (plan, cards) => {
     },
     pageMargins: [0, 0, 0, 0],
     pageSize: {
-      width: 595.35,
-      height: 841.995,
+      // width: 226.8,
+      width: 210,
+      height: 490,
     },
     content: [
       {
@@ -81,24 +83,8 @@ const createQrCard = async (plan, cards) => {
         // layout: "QrCardnoBorder",
         table: {
           headerRows: 0,
-          widths: ["20%", "*", "*"],
+          widths: ["30%", "*"],
           body: data,
-          // [
-          //   [
-          //     {
-          //       text: "",
-          //     },
-          //     {
-          //       stack: [
-          //         {
-          //           text: "บริษัท มงคลสมัย จำกัด\n149 ม.5 ต.ผาจุก อ.เมือง จ.อุตรดิตถ์ 53500\nโทร 0-5544-9126-7",
-          //           alignment: "right",
-          //           fontSize: 6,
-          //         },
-          //       ],
-          //     },
-          //   ],
-          // ],
         },
       },
     ],
@@ -114,12 +100,126 @@ const createQrCard = async (plan, cards) => {
   return doc;
 };
 
-const cardTemplate = (plan, card) => {
+const cardHeadTemplate = (plan) => {
   const { Customer, Shipper, DriverName, VehiclePlate, TrailerPlate, WeightType } = plan;
+  return [
+    {
+      stack: [
+        {
+          columns: [
+            {
+              width: "*",
+              text: `บริษัท:`,
+              style: "btext",
+            },
+          ],
+        },
+
+        {
+          columns: [
+            {
+              width: "*",
+              text: `บริษัทขนส่ง:`,
+              style: "btext",
+            },
+          ],
+        },
+        {
+          columns: [
+            {
+              width: "*",
+              text: `พนักงานขับรถ:`,
+              style: "btext",
+            },
+          ],
+        },
+        {
+          columns: [
+            {
+              width: "*",
+              text: `ทะเบียนรถ:`,
+              style: "btext",
+            },
+          ],
+        },
+        {
+          columns: [
+            {
+              width: "*",
+              text: `ทะเบียนพ่วง:`,
+              style: "btext",
+            },
+          ],
+        },
+        {
+          columns: [
+            {
+              width: "*",
+              text: `ประเภทการชั่ง:`,
+              style: "btext",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stack: [
+        {
+          columns: [
+            {
+              width: "*",
+              text: `${Customer || "-"}`,
+            },
+          ],
+        },
+        {
+          columns: [
+            {
+              width: "*",
+              text: `${Shipper || "-"}`,
+            },
+          ],
+        },
+        {
+          columns: [
+            {
+              width: "*",
+              text: `${DriverName || "-"}`,
+            },
+          ],
+        },
+        {
+          columns: [
+            {
+              width: "*",
+              text: `${VehiclePlate || "-"}`,
+            },
+          ],
+        },
+        {
+          columns: [
+            {
+              width: "*",
+              text: `${TrailerPlate || "-"}`,
+            },
+          ],
+        },
+        {
+          columns: [
+            {
+              width: "*",
+              text: `${WeightType == 1 ? "ชั่งเข้า" : "ชั่งออก"}`,
+            },
+          ],
+        },
+      ],
+    },
+  ];
+};
+
+const cardTemplate = (plan, card) => {
   const { CardId, Product } = card;
-  // const numberWithPadding = String(CardId).padStart(10, "0");
   const qrCode = `#${CardId}`;
-  const columns_width = "40%";
   return [
     {
       stack: [
@@ -127,7 +227,7 @@ const cardTemplate = (plan, card) => {
           qr: qrCode,
           eccLevel: "H",
           version: 2,
-          fit: 100,
+          fit: 65,
           alignment: "right",
         },
       ],
@@ -137,7 +237,7 @@ const cardTemplate = (plan, card) => {
         {
           columns: [
             {
-              width: "35%",
+              width: "40%",
               text: `Card ID:`,
               style: "btext",
             },
@@ -150,102 +250,253 @@ const cardTemplate = (plan, card) => {
         {
           columns: [
             {
-              width: "35%",
-              text: `พนักงานขับรถ:`,
+              width: "40%",
+              text: `สินค้า :`,
               style: "btext",
             },
-            {
-              width: "*",
-              text: `${DriverName || "-"}`,
-            },
+            // {
+            //   width: "*",
+            //   text: `${Product || "-"}`,
+            // },
           ],
         },
         {
           columns: [
             {
-              width: "35%",
-              text: `ทะเบียนรถ:`,
-              style: "btext",
-            },
-            {
               width: "*",
-              text: `${VehiclePlate}`,
-            },
-          ],
-        },
-        {
-          columns: [
-            {
-              width: "35%",
-              text: `บริษัทขนส่ง:`,
-              style: "btext",
-            },
-            {
-              width: "*",
-              text: `${Shipper}`,
+              text: `${Product || "-"}`,
             },
           ],
         },
       ],
     },
-    {
-      stack: [
-        {
-          columns: [
-            {
-              width: "35%",
-              text: `ประเภทการชั่ง:`,
-              style: "btext",
-            },
-            {
-              width: "*",
-              text: `${WeightType == 1 ? "ชั่งเข้า" : "ชั่งออก"}`,
-            },
-          ],
-        },
-        {
-          columns: [
-            {
-              width: "35%",
-              text: `สินค้า:`,
-              style: "btext",
-            },
-            {
-              width: "*",
-              text: `${Product}`,
-            },
-          ],
-        },
-        {
-          columns: [
-            {
-              width: "35%",
-              text: `ทะเบียนพ่วง:`,
-              style: "btext",
-            },
-            {
-              width: "*",
-              text: `${TrailerPlate || "-"}`,
-            },
-          ],
-        },
-        {
-          columns: [
-            {
-              width: "35%",
-              text: `บริษัท:`,
-              style: "btext",
-            },
-            {
-              width: "*",
-              text: `${Customer}`,
-            },
-          ],
-        },
-      ],
-    },
+    // {
+    //   stack: [
+    //     {
+    //       columns: [
+    //         {
+    //           width: "35%",
+    //           text: `ประเภทการชั่ง:`,
+    //           style: "btext",
+    //         },
+    //         {
+    //           width: "*",
+    //           text: `${WeightType == 1 ? "ชั่งเข้า" : "ชั่งออก"}`,
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       columns: [
+    //         {
+    //           width: "35%",
+    //           text: `สินค้า:`,
+    //           style: "btext",
+    //         },
+    //         {
+    //           width: "*",
+    //           text: `${Product}`,
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       columns: [
+    //         {
+    //           width: "35%",
+    //           text: `ทะเบียนพ่วง:`,
+    //           style: "btext",
+    //         },
+    //         {
+    //           width: "*",
+    //           text: `${TrailerPlate || "-"}`,
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       columns: [
+    //         {
+    //           width: "35%",
+    //           text: `บริษัท:`,
+    //           style: "btext",
+    //         },
+    //         {
+    //           width: "*",
+    //           text: `${Customer}`,
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // },
   ];
 };
+
+//! old
+// const createQrCard = async (plan, cards) => {
+//   let { PlanNo } = plan;
+//   let data = cards.map((card) => cardTemplate(plan, card));
+//   let doc = {
+//     info: {
+//       title: `QR_${PlanNo}`,
+//       creator: "PRIVA INNOTECH CO., LTD",
+//     },
+//     pageMargins: [0, 0, 0, 0],
+//     pageSize: {
+//       width: 595.35, // a4
+//       height: 841.995, // a4
+
+//     },
+//     content: [
+//       {
+//         layout: "QrCard",
+//         // layout: "QrCardnoBorder",
+//         table: {
+//           headerRows: 0,
+//           widths: ["20%", "*", "*"],
+//           body: data,
+//         },
+//       },
+//     ],
+//     styles: {
+//       btext: { bold: true },
+//     },
+//     defaultStyle: {
+//       font: "Tahoma",
+//       fontSize: 10,
+//       lineHeight: 1.4,
+//     },
+//   };
+//   return doc;
+// };
+
+// const cardTemplate = (plan, card) => {
+//   const { Customer, Shipper, DriverName, VehiclePlate, TrailerPlate, WeightType } = plan;
+//   const { CardId, Product } = card;
+//   const qrCode = `#${CardId}`;
+//   return [
+//     {
+//       stack: [
+//         {
+//           qr: qrCode,
+//           eccLevel: "H",
+//           version: 2,
+//           fit: 100,
+//           alignment: "right",
+//         },
+//       ],
+//     },
+//     {
+//       stack: [
+//         {
+//           columns: [
+//             {
+//               width: "35%",
+//               text: `Card ID:`,
+//               style: "btext",
+//             },
+//             {
+//               width: "*",
+//               text: `${qrCode}`,
+//             },
+//           ],
+//         },
+//         {
+//           columns: [
+//             {
+//               width: "35%",
+//               text: `พนักงานขับรถ:`,
+//               style: "btext",
+//             },
+//             {
+//               width: "*",
+//               text: `${DriverName || "-"}`,
+//             },
+//           ],
+//         },
+//         {
+//           columns: [
+//             {
+//               width: "35%",
+//               text: `ทะเบียนรถ:`,
+//               style: "btext",
+//             },
+//             {
+//               width: "*",
+//               text: `${VehiclePlate}`,
+//             },
+//           ],
+//         },
+//         {
+//           columns: [
+//             {
+//               width: "35%",
+//               text: `บริษัทขนส่ง:`,
+//               style: "btext",
+//             },
+//             {
+//               width: "*",
+//               text: `${Shipper}`,
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//     {
+//       stack: [
+//         {
+//           columns: [
+//             {
+//               width: "35%",
+//               text: `ประเภทการชั่ง:`,
+//               style: "btext",
+//             },
+//             {
+//               width: "*",
+//               text: `${WeightType == 1 ? "ชั่งเข้า" : "ชั่งออก"}`,
+//             },
+//           ],
+//         },
+//         {
+//           columns: [
+//             {
+//               width: "35%",
+//               text: `สินค้า:`,
+//               style: "btext",
+//             },
+//             {
+//               width: "*",
+//               text: `${Product}`,
+//             },
+//           ],
+//         },
+//         {
+//           columns: [
+//             {
+//               width: "35%",
+//               text: `ทะเบียนพ่วง:`,
+//               style: "btext",
+//             },
+//             {
+//               width: "*",
+//               text: `${TrailerPlate || "-"}`,
+//             },
+//           ],
+//         },
+//         {
+//           columns: [
+//             {
+//               width: "35%",
+//               text: `บริษัท:`,
+//               style: "btext",
+//             },
+//             {
+//               width: "*",
+//               text: `${Customer}`,
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//   ];
+// };
 
 module.exports = {
   fonts,

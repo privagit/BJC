@@ -150,6 +150,10 @@ const checkinPlan = async (req, res, next) => {
 
     console.log(UserId);
     const pool = await sql.connect(dbconfig);
+    // check product in plan
+    const checkProduct = await pool.request().query(`SELECT * FROM WeightCard WHERE PlanId = ${PlanId} AND Status = 1`);
+    if (!checkProduct.recordset.length) return res.status(500).send({ message: "ไม่พบสินค้าในแผน" });
+
     const checkin = await pool.request().query(
       `INSERT INTO WeightPlanCheck(PlanId,CheckDate,CustomerId,VehicleId,TrailerPlate,DriverName,CheckBy)
       VALUES  (${PlanId}, N'${CheckDate}', ${CustomerId}, ${VehicleId},

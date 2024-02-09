@@ -17,8 +17,8 @@ router.get("/", async (req, res, next) => {
       LEFT JOIN MasterProductType b on a.ProductTypeId = b.ProductTypeId
       WHERE a.Active != 2
       ORDER BY
-          CASE WHEN ItemNo IS NULL THEN 1 ELSE 0 END ASC,
-          ItemNo ASC
+          CASE WHEN a.ItemNo IS NULL THEN 1 ELSE 0 END ASC,
+          a.ItemNo ASC
       `;
     let pool = await sql.connect(dbconfig);
     let Product = await pool.request().query(SelectProduct);

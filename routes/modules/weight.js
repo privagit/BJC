@@ -208,7 +208,7 @@ const getWeightPlans = () =>
   ORDER BY PlanNo desc`;
 
 const getWeightPlanById = (PlanId) =>
-  `SELECT row_number() over(order by PlanDate desc, PlanNo desc) as 'index',
+  `SELECT
    PlanId, PlanNo, FORMAT(PlanDate, 'yyyy-MM-dd') PlanDate,
     Status, CustomerId, CustomerCode, Customer, DriverName,
     FORMAT(CheckDate, 'yyyy-MM-dd hh:mm') CheckDate,

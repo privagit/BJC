@@ -73,7 +73,7 @@ const addUser = async (req, res, next) => {
     const product = await pool.request().query(
       `INSERT INTO Users(Username,Password,FirstName,LastName,Department,Position,Permission)
       VALUES  (N'${Username}',N'${encrypt(Password)}',
-        N'${encryptName(FirstName)}',N'${encryptName(LastName)}',
+        N'${FirstName}',N'${LastName}',
         N'${Department}',N'${Position}',N'${JSON.stringify(Permission)}')
       SELECT SCOPE_IDENTITY() as id;`
     );
@@ -104,8 +104,8 @@ const editUser = async (req, res, next) => {
     await pool.request().query(`
       UPDATE Users
       SET Username = N'${Username}',
-        FirstName = N'${encryptName(FirstName)}',
-        LastName = N'${encryptName(LastName)}',
+        FirstName = N'${FirstName}',
+        LastName = N'${LastName}',
         Department = N'${Department}',Position = N'${Position}',
         Permission = N'${JSON.stringify(Permission)}'
       WHERE UserId = ${UserId}`);

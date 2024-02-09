@@ -1,6 +1,3 @@
-// todo: 31/01/2567
-// todo: refresh table
-// todo: Edit Master Date
 $(document).ready(() => {
   function checkDataWeightPlan(dataTarget) {
     return new Promise(function (resolve, reject) {
@@ -10,13 +7,11 @@ $(document).ready(() => {
         contentType: "application/json",
         dataType: "json",
         success: function (res) {
-          console.log("data target : ", dataTarget);
-          console.log("res : ", res[0]);
+          delete dataTarget.index;
           resolve(JSON.stringify(res[0]) === JSON.stringify(dataTarget));
         },
         error: function (error) {
           console.error("Error fetching data:", error);
-          // Reject the promise with the error
           reject(error);
         },
       });
