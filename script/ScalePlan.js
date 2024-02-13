@@ -1,3 +1,10 @@
+function printPDF() {
+  var pdfFrame = document.getElementById("pdfFrame");
+  var frameWindow = pdfFrame.contentWindow;
+  frameWindow.focus();
+  frameWindow.print();
+}
+
 $(document).ready(() => {
   function checkDataWeightPlan(dataTarget) {
     return new Promise(function (resolve, reject) {
@@ -894,12 +901,16 @@ $(document).ready(() => {
       contentType: "application/json",
       dataType: "json",
       success: function (res) {
-        $("#modalPrintQr").modal("show");
+        // $("#modalPrintQr").modal("show");
         $("#showPDF").html("");
+        // $("#showPDF").html(`
+        //   <object width="100%" height="900px" type="application/pdf" data="${res.message}"></object>
+        // `);
         $("#showPDF").html(`
-          <object width="100%" height="900px" type="application/pdf" data="${res.message}"></object>
+        <iframe id="pdfFrame" src="${res.message}" style=""></iframe>
         `);
-        // $("#modalPrintQr object").attr("data", res.message);
+
+        printPDF();
       },
       error: function (err) {
         let error = err.responseJSON.message;
@@ -918,7 +929,10 @@ $(document).ready(() => {
       $("#modalPrintQr").modal("hide");
     });
   });
-
+  $(document).on("click", "#test_print_pdf", function () {
+    console.log("test print pdf");
+    printPDF();
+  });
   // delete
   $("#tbWeightPlan").on("click", "#button_plan_delete", function () {
     let tr = $(this).closest("tr");
