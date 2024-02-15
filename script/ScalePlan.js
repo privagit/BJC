@@ -544,9 +544,9 @@ $(document).ready(() => {
 
           fill_ProductList(PlanId);
 
-          // $("#modalPlanDetail").on("click", "#button_product_add", function () {
-          $("#button_product_add").unbind();
-          $("#button_product_add").on("click", function () {
+          $("#modalPlanDetail").on("click", "#button_product_add", function () {
+            // $("#button_product_add").unbind();
+            // $("#button_product_add").on("click", function () {
             let Product = $("#input_inModalPlanDetail_product").val();
 
             let $Product = $(`#product_opt option[value="${Product}"]`);

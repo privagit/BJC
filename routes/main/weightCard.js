@@ -31,8 +31,37 @@ router.get("/all/:CardNo", async (req, res, next) => {
 router.get("/:CardId", async (req, res, next) => {
   try {
     const { CardId } = req.params;
-    console.log("CardId => ", CardId);
+    console.log("CardId => ", CardId, CardId == "000");
     const pool = await sql.connect(dbconfig);
+
+    // เช็คว่ามีรถขับออกโดยที่ยังไม่ได้ชั่งน้ำหนัก
+    if (CardId == "000") {
+      console.log("มีรถขับออกโดยที่ยังไม่ได้ชั่งน้ำหนัก");
+      return res.status(200).send({ Status: 8 });
+    }
+    console.log("normal status");
+    const card = await pool.request().query(
+      `SELECT PlanId, BillWeight, WeightIn, WeightOut, AdjWeight, Status
+      FROM WeightCard 
+      WHERE CardId = ${CardId}`
+    );
+    const { PlanId, Status } = card.recordset[0];
+
+    if (Status == 1) {
+      // เช็คว่ามีการชั่งหรือยัง
+      const checkStatus = await pool.request().query(
+        `
+      SELECT  CardId, CardNo, PlanId, Status
+      FROM CardView
+      WHERE PlanId = ${PlanId} AND Status = 2 AND CardId != ${CardId}
+      `
+      );
+      if (checkStatus.recordset.length != 0) {
+        // ไม่บันทึก
+        return res.status(200).send({ CardId: checkStatus.recordset[0].CardId, Status: 7 });
+      }
+    }
+
     const Card = await pool.request().query(getWeightCard(CardId));
     res.status(200).send(Card.recordset[0]);
   } catch (err) {
