@@ -1,3 +1,31 @@
+function print(PlanId) {
+  $.ajax({
+    url: "/weight/plan/" + PlanId + "/qrcode",
+    method: "get",
+    contentType: "application/json",
+    dataType: "json",
+    success: function (res) {
+      $("#showPDF").html("");
+      $("#showPDF").html(`
+      <iframe id="pdfFrame" src="${res.message}" style=""></iframe>
+      `);
+
+      printPDF();
+    },
+    error: function (err) {
+      let error = err.responseJSON.message;
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "Warning",
+        text: error,
+        showConfirmButton: true,
+        confirmButtonText: "OK",
+        confirmButtonColor: "#FF5733",
+      });
+    },
+  });
+}
 function printPDF() {
   var pdfFrame = document.getElementById("pdfFrame");
   var frameWindow = pdfFrame.contentWindow;
@@ -765,29 +793,7 @@ $(document).ready(() => {
           $("#modalCheckIn").modal("show");
           $("#modalCheckIn input,#modalCheckIn textarea").val("");
 
-          let {
-            CheckDate,
-            Customer,
-            CustomerCode,
-            CustomerId,
-            PlanDriver,
-            MolassesSeller,
-            MolassesSellerCode,
-            MolassesSellerId,
-            PlanDate,
-            PlanId,
-            PlanNo,
-            ProductInPlan,
-            Remark,
-            Status,
-            ThaiMolassesNo,
-            PlanTrailerPlate,
-            VehicleId,
-            VehiclePlate,
-            VehicleType,
-            Shipper,
-            WeightType,
-          } = tableData;
+          let { Customer, PlanDriver, PlanId, PlanTrailerPlate, VehiclePlate, VehicleType, Shipper } = tableData;
 
           let currentDate = new Date();
 
@@ -853,6 +859,7 @@ $(document).ready(() => {
                   timer: 1500,
                 });
                 tableWeightPlan.ajax.reload(null, false);
+                print(PlanId);
                 $("#modalCheckIn").modal("hide");
               },
               error: (err) => {
@@ -895,39 +902,33 @@ $(document).ready(() => {
   $("#tbWeightPlan").on("click", "#button_plan_qr", function () {
     let tr = $(this).closest("tr");
     let { PlanId } = tableWeightPlan.row(tr).data();
-    $.ajax({
-      url: "/weight/plan/" + PlanId + "/qrcode",
-      method: "get",
-      contentType: "application/json",
-      dataType: "json",
-      success: function (res) {
-        // $("#modalPrintQr").modal("show");
-        $("#showPDF").html("");
-        // $("#showPDF").html(`
-        //   <object width="100%" height="900px" type="application/pdf" data="${res.message}"></object>
-        // `);
-        $("#showPDF").html(`
-        <iframe id="pdfFrame" src="${res.message}" style=""></iframe>
-        `);
+    print(PlanId);
+    // $.ajax({
+    //   url: "/weight/plan/" + PlanId + "/qrcode",
+    //   method: "get",
+    //   contentType: "application/json",
+    //   dataType: "json",
+    //   success: function (res) {
+    //     $("#showPDF").html("");
+    //     $("#showPDF").html(`
+    //     <iframe id="pdfFrame" src="${res.message}" style=""></iframe>
+    //     `);
 
-        printPDF();
-      },
-      error: function (err) {
-        let error = err.responseJSON.message;
-        Swal.fire({
-          position: "center",
-          icon: "warning",
-          title: "Warning",
-          text: error,
-          showConfirmButton: true,
-          confirmButtonText: "OK",
-          confirmButtonColor: "#FF5733",
-        });
-      },
-    });
-    $(".close,.no").click(function () {
-      $("#modalPrintQr").modal("hide");
-    });
+    //     printPDF();
+    //   },
+    //   error: function (err) {
+    //     let error = err.responseJSON.message;
+    //     Swal.fire({
+    //       position: "center",
+    //       icon: "warning",
+    //       title: "Warning",
+    //       text: error,
+    //       showConfirmButton: true,
+    //       confirmButtonText: "OK",
+    //       confirmButtonColor: "#FF5733",
+    //     });
+    //   },
+    // });
   });
   $(document).on("click", "#test_print_pdf", function () {
     console.log("test print pdf");

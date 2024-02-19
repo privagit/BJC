@@ -35,16 +35,14 @@ router.get("/:CardId", async (req, res, next) => {
     const pool = await sql.connect(dbconfig);
 
     // เช็คว่ามีรถขับออกโดยที่ยังไม่ได้ชั่งน้ำหนัก
-    if (CardId == "000") {
-      console.log("มีรถขับออกโดยที่ยังไม่ได้ชั่งน้ำหนัก");
-      return res.status(200).send({ Status: 8 });
-    }
-    console.log("normal status");
+    if (CardId == "000") return res.status(200).send({ Status: 8 });
     const card = await pool.request().query(
       `SELECT PlanId, BillWeight, WeightIn, WeightOut, AdjWeight, Status
       FROM WeightCard 
       WHERE CardId = ${CardId}`
     );
+    // ไม่มีข้อมูลในระบบ
+    if (card.recordset.length == 0) return res.status(200).send(card.recordset[0]);
     const { PlanId, Status } = card.recordset[0];
 
     if (Status == 1) {
