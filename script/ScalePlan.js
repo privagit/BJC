@@ -107,15 +107,15 @@ $(document).ready(() => {
           data: "CheckDate",
           render: function (data, type, row) {
             let html = "";
-            // if (row.Status != 4) {
-            if (data) {
-              html = `
+            if (row.Status != 4) {
+              if (data) {
+                html = `
                 <div class="d-flex flex-column align-items-center justify-content-center">
                   <div>${row.DriverName}</div>
                   <div>${data.replace(" ", "<br>")}</div>
                 </div>`;
-            } else {
-              html = `
+              } else {
+                html = `
                 <button
                   class="btn btn-primary btn-sm text-nowrap mr-1"
                   id="button_plan_checkIn"
@@ -126,6 +126,7 @@ $(document).ready(() => {
                   <i class="fa fa-sign-in m-1"></i>
                 </button>
                 `;
+              }
             }
             return html;
           },
