@@ -29,7 +29,7 @@ const addCustomer = async (req, res, next) => {
     const pool = await sql.connect(dbconfig);
     const product = await pool.request().query(
       `INSERT INTO MasterCustomer(CustomerCode,Customer,Address,Tel,Remark)
-      VALUES  (N'${CustomerCode}',N'${Customer}',N'${Address}',N'${Tel}',N'${Remark}')
+      VALUES  (N'${CustomerCode}',N'${Customer}',N'${Address || ""}',N'${Tel || ""}',N'${Remark || ""}')
       SELECT SCOPE_IDENTITY() as id;`
     );
     req.body.CustomerId = product.recordset[0].id;

@@ -5,10 +5,10 @@ $(document).ready(() => {
     contentType: "application/json",
     success: (res) => {
       if (res) {
-        let { FactoryId, FactoryName, FactoryAddress, FactoryTel } = res;
+        let { FactoryId, FactoryName, FactoryAddress1, FactoryAddress2, FactoryAddress3, FactoryTel } = res;
         $("#input_factory_id").val(FactoryId);
         $("#input_factory_name").val(FactoryName);
-        $("#input_factory_address").val(FactoryAddress);
+        $("#input_factory_address").val(`${FactoryAddress1 || ""} ${FactoryAddress2 || ""} ${FactoryAddress3 || ""}`);
         $("#input_factory_tel").val(FactoryTel);
       }
     },

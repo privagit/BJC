@@ -9,7 +9,7 @@ const { isAuthEdit } = require("../middleware/checkUser");
 
 router.get("/", async (req, res, next) => {
   try {
-    let SelectFactory = `SELECT TOP 1 FactoryId, FactoryName, FactoryAddress, FactoryTel, GETDATE() AS CurrentDate
+    let SelectFactory = `SELECT TOP 1 FactoryId, FactoryName, FactoryAddress1, FactoryAddress2,FactoryAddress3, FactoryTel, GETDATE() AS CurrentDate
         FROM MasterFactory`;
     let pool = await sql.connect(dbconfig);
     let Factory = await pool.request().query(SelectFactory);

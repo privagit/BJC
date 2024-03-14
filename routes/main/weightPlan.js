@@ -106,8 +106,6 @@ router.get("/:PlanId/qrcode", async (req, res, next) => {
   }
 });
 
-router.post("/import", importPlan, (req, res, next) => res.status(201).send({ message: req.message }));
-
 router.put(
   "/:PlanId/checkin",
   validate(shipperValidator),
@@ -122,6 +120,7 @@ router.put(
 );
 
 router.use(isAuthEdit("weightPlan"));
+router.post("/import", importPlan, (req, res, next) => res.status(201).send({ message: req.message }));
 
 router.post(
   "/",
@@ -170,19 +169,19 @@ router.put("/:PlanId/cancel", async (req, res, next) => {
 });
 
 // ! Deprecated
-router.delete("/:PlanId", async (req, res, next) => {
-  try {
-    const { PlanId } = req.params;
-    const pool = await sql.connect(dbconfig);
-    await pool.request().query(`DELETE FROM WeightCard
-      WHERE PlanId = ${PlanId};
-      DELETE FROM WeightPlan
-      WHERE PlanId = ${PlanId};`);
-    res.status(200).send({ message: `ลบแผนสำเร็จ` });
-  } catch (err) {
-    next(err);
-  }
-});
+// router.delete("/:PlanId", async (req, res, next) => {
+//   try {
+//     const { PlanId } = req.params;
+//     const pool = await sql.connect(dbconfig);
+//     await pool.request().query(`DELETE FROM WeightCard
+//       WHERE PlanId = ${PlanId};
+//       DELETE FROM WeightPlan
+//       WHERE PlanId = ${PlanId};`);
+//     res.status(200).send({ message: `ลบแผนสำเร็จ` });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 // Plan Product (Card)
 router.post("/:PlanId/product", validate(productTypeValidator), addProductType, validate(productValidator), addProduct, addCard, (req, res, next) =>
@@ -209,17 +208,17 @@ router.put("/product/:CardId/cancel", async (req, res, next) => {
   }
 });
 
-// ! Deprecated
-router.delete("/product/:CardId", async (req, res, next) => {
-  try {
-    const { CardId } = req.params;
-    const pool = await sql.connect(dbconfig);
-    await pool.request().query(`DELETE FROM WeightCard
-      WHERE CardId = ${CardId};`);
-    res.status(200).send({ message: `ลบแผนชั่งสินค้าสำเร็จ` });
-  } catch (err) {
-    next(err);
-  }
-});
+// // ! Deprecated
+// router.delete("/product/:CardId", async (req, res, next) => {
+//   try {
+//     const { CardId } = req.params;
+//     const pool = await sql.connect(dbconfig);
+//     await pool.request().query(`DELETE FROM WeightCard
+//       WHERE CardId = ${CardId};`);
+//     res.status(200).send({ message: `ลบแผนชั่งสินค้าสำเร็จ` });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 module.exports = router;
