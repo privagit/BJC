@@ -11,6 +11,6 @@ set CUR_MS=%time:~9,2%
  
 set SUBFILENAME=%CUR_YYYY%%CUR_MM%%CUR_DD%%CUR_HH%%CUR_NN%%CUR_SS%
 
-sqlcmd -S 192.168.1.6 -d BJC_WSS -U sa -P P@ssw0rd -Q" BACKUP DATABASE [BJC_WSS] TO DISK = 'C:\Backup\dbBJC_%SUBFILENAME%.BAK'"
+sqlcmd -S 192.168.1.6 -d BJC_WSS -U sa -P P@ssw0rd -Q" BACKUP DATABASE [BJC_WSS] TO DISK = 'C:Privainnotech\Backup\dbBJC_%SUBFILENAME%.BAK'"
 
-msg %username% Database Backup Completed: "C:\Backup\dbBJC_%SUBFILENAME%.BAK"
+msg %username% Database Backup Completed: "C:Privainnotech\Backup\dbBJC_%SUBFILENAME%.BAK"
